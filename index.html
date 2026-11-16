@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cây Tri Ân Tây Nguyên</title>
+<meta name="description" content="Gieo một lời cảm ơn gửi thầy cô: mỗi lời tri ân là một chiếc lá trên Cây Tri Ân Tây Nguyên. Code the Thanks 2026.">
+<meta name="theme-color" content="#0A2723">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="demo-banner" id="demoBanner" hidden>Chế độ DEMO: dữ liệu chỉ lưu trong trình duyệt này. Điền khóa Supabase vào config.js để chạy thật.</div>
+
+<header class="top">
+  <div class="brand">
+    <span class="eyebrow">Code the Thanks 2026 · Đại học Tây Nguyên</span>
+    <h1>Cây Tri Ân <span>Tây Nguyên</span></h1>
+    <p class="tag">Mỗi lời cảm ơn gửi thầy cô là một chiếc lá mới trên cây tri thức chung của chúng ta.</p>
+  </div>
+  <div class="qrbox" id="qrBox" hidden>
+    <div id="qr"></div>
+    <p>Quét để gieo lời cảm ơn</p>
+    <small id="qrUrl"></small>
+  </div>
+</header>
+
+<main>
+  <section class="stage" aria-label="Cây tri ân">
+    <div class="counter"><b id="count">0</b> lời tri ân đã nảy mầm</div>
+    <svg id="tree" viewBox="0 0 600 640" role="img" aria-label="Cây tri ân với những chiếc lá là lời cảm ơn" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#4FB477" stop-opacity=".28"/>
+          <stop offset="1" stop-color="#4FB477" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="bark" x1="0" x2="1">
+          <stop offset="0" stop-color="#5A3720"/><stop offset=".5" stop-color="#7A4C2C"/><stop offset="1" stop-color="#5A3720"/>
+        </linearGradient>
+        <linearGradient id="soilg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#A9502B"/><stop offset="1" stop-color="#6E2D15"/>
+        </linearGradient>
+        <g id="dq">
+          <g fill="#F7C531">
+            <ellipse cx="0" cy="-7" rx="2.6" ry="6"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(45)"/>
+            <ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(90)"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(135)"/>
+            <ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(180)"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(225)"/>
+            <ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(270)"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(315)"/>
+          </g>
+          <circle r="4" fill="#6B3410"/>
+        </g>
+      </defs>
+
+      <ellipse cx="300" cy="245" rx="285" ry="240" fill="url(#halo)"/>
+      <g id="flies">
+        <circle class="fly" cx="90" cy="420" r="2.2" style="animation-delay:0s"/>
+        <circle class="fly" cx="505" cy="380" r="2" style="animation-delay:1.8s"/>
+        <circle class="fly" cx="150" cy="520" r="2.4" style="animation-delay:3.2s"/>
+        <circle class="fly" cx="455" cy="500" r="2" style="animation-delay:4.6s"/>
+        <circle class="fly" cx="60" cy="250" r="1.8" style="animation-delay:2.4s"/>
+        <circle class="fly" cx="545" cy="210" r="2.2" style="animation-delay:5.5s"/>
+      </g>
+
+      <g class="crown">
+        <g stroke="url(#bark)" stroke-linecap="round" fill="none">
+          <path d="M300 490 C300 420 298 360 300 295" stroke-width="20"/>
+          <path d="M296 445 C260 412 215 392 170 340" stroke-width="12"/>
+          <path d="M304 435 C345 408 392 388 440 335" stroke-width="12"/>
+          <path d="M298 365 C270 335 245 300 225 250" stroke-width="8"/>
+          <path d="M302 355 C335 322 360 292 385 235" stroke-width="8"/>
+          <path d="M300 300 C290 260 285 220 280 175" stroke-width="6"/>
+          <path d="M300 300 C312 260 322 220 332 170" stroke-width="6"/>
+          <path d="M170 340 C140 320 110 300 85 262" stroke-width="5"/>
+          <path d="M440 335 C470 315 500 290 520 250" stroke-width="5"/>
+        </g>
+        <path d="M258 616 C272 572 281 525 283 470 L317 470 C319 525 328 572 342 616 Z" fill="url(#bark)"/>
+        <g id="slots"></g>
+        <g id="leaves"></g>
+      </g>
+
+      <ellipse cx="300" cy="618" rx="250" ry="22" fill="url(#soilg)"/>
+      <ellipse cx="300" cy="610" rx="215" ry="12" fill="#B95E33" opacity=".55"/>
+      <use href="#dq" transform="translate(110 606) scale(.9)"/>
+      <use href="#dq" transform="translate(150 612) scale(.7)"/>
+      <use href="#dq" transform="translate(470 606) scale(.9)"/>
+      <use href="#dq" transform="translate(432 613) scale(.7)"/>
+      <use href="#dq" transform="translate(215 619) scale(.6)"/>
+      <use href="#dq" transform="translate(392 619) scale(.6)"/>
+    </svg>
+    <div class="empty" id="emptyHint" hidden>Cây đang chờ chiếc lá đầu tiên. Bạn gieo mầm nhé?</div>
+  </section>
+
+  <div class="actions"><button class="cta" id="plantBtn" type="button">🌱 Gieo một lời cảm ơn</button></div>
+  <p class="hint-tap">Chạm vào một chiếc lá để đọc lời tri ân.</p>
+  <ul class="legend" id="legend"></ul>
+  <div class="ticker" id="ticker" hidden aria-live="polite"><div class="who" id="tkWho"></div><div class="txt" id="tkTxt"></div></div>
+</main>
+
+<footer>Cây Tri Ân Tây Nguyên · Sản phẩm dự thi Code the Thanks 2026 · Lời nhắn được kiểm duyệt trước khi hiển thị.</footer>
+
+<!-- Form gieo lời cảm ơn -->
+<div class="overlay" id="formOverlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <button class="close" id="closeForm" type="button" aria-label="Đóng">×</button>
+    <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+    <section data-step="1">
+      <h2 id="sheetTitle">CÂY TRI ÂN</h2>
+      <p class="lead">Trước khi gieo một lời cảm ơn...</p>
+      <label for="nameInput">Bạn muốn chúng mình gọi bạn là gì?</label>
+      <input type="text" id="nameInput" maxlength="30" placeholder="Ví dụ: Minh Anh" autocomplete="nickname">
+      <label class="check"><input type="checkbox" id="anonChk"><span>Gửi ẩn danh</span></label>
+      <p class="hint">Có thể dùng tên gọi thân mật hoặc chọn gửi ẩn danh. Không cần tài khoản, không cần đăng nhập.</p>
+      <div class="row"><button class="btn primary" id="toStep2" type="button" disabled>Tiếp tục</button></div>
+    </section>
+
+    <section data-step="2" hidden>
+      <h2>Viết lời tri ân</h2>
+      <p class="q">Bạn muốn gửi lời cảm ơn đến ai?</p>
+      <div class="chips" id="recipChips" role="radiogroup" aria-label="Người nhận lời cảm ơn"></div>
+      <div id="recipNameWrap" hidden>
+        <label for="recipName">Tên thầy cô (không bắt buộc)</label>
+        <input type="text" id="recipName" maxlength="40" placeholder="Ví dụ: cô chủ nhiệm lớp 12, thầy Toán">
+      </div>
+      <label for="msg">Lời nhắn của bạn</label>
+      <textarea id="msg" maxlength="400" rows="5" placeholder="Có một điều em luôn muốn nói..."></textarea>
+      <div class="meta"><span id="msgCount">0/400</span></div>
+      <input class="hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="check"><input type="checkbox" id="consentChk"><span id="consentText"></span></label>
+      <p class="hint">Nội dung sẽ được kiểm duyệt trước khi xuất hiện công khai.</p>
+      <p class="error" id="formError" role="alert" hidden></p>
+      <div class="row">
+        <button class="btn ghost" id="backTo1" type="button">Quay lại</button>
+        <button class="btn primary" id="submitBtn" type="button" disabled>Gieo lời cảm ơn</button>
+      </div>
+    </section>
+
+    <section data-step="3" hidden>
+      <div class="done">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <path d="M20 104 Q60 92 100 104" stroke="#8A3B1E" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <g class="sprout">
+            <path d="M60 100 C60 80 60 66 60 52" stroke="#2F7F57" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M60 70 C40 68 28 54 26 40 C44 40 58 50 60 70Z" fill="#4FB477"/>
+            <path d="M60 58 C78 58 92 46 94 30 C76 30 62 42 60 58Z" fill="#6CCB93"/>
+          </g>
+        </svg>
+        <h2>Cảm ơn bạn đã gieo một mầm xanh!</h2>
+        <p class="lead" id="doneText">Sau khi được duyệt, chiếc lá sẽ xuất hiện trên cây tri ân chung.</p>
+      </div>
+      <div class="row">
+        <button class="btn ghost" id="againBtn" type="button">Gieo thêm</button>
+        <button class="btn primary" id="viewTree" type="button">Xem cây</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Thẻ đọc lời tri ân -->
+<div class="overlay" id="leafOverlay" hidden>
+  <div class="sheet leafcard" role="dialog" aria-modal="true" aria-label="Lời tri ân">
+    <button class="close" id="closeLeaf" type="button" aria-label="Đóng">×</button>
+    <p class="from" id="lcFrom"></p>
+    <blockquote id="lcMsg"></blockquote>
+    <span class="to" id="lcTo"></span>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="qr.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
