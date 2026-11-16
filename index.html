@@ -1,176 +1,509 @@
 <!doctype html>
 <html lang="vi">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cây Tri Ân Tây Nguyên</title>
-<meta name="description" content="Gieo một lời cảm ơn gửi thầy cô: mỗi lời tri ân là một chiếc lá trên Cây Tri Ân Tây Nguyên. Code the Thanks 2026.">
-<meta name="theme-color" content="#0A2723">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cây Tri Ân Tây Nguyên – Báo Tường Tri Ân Ngày Nhà Giáo Việt Nam 20/11</title>
+  <meta name="description"
+    content="Báo tường điện tử nghệ thuật Cây Tri Ân Tây Nguyên: Không gian tri ân nơi mỗi lời cảm ơn gửi thầy cô hóa thành một mầm xanh trên cây tri thức.">
+  <meta name="theme-color" content="#1C4D38">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@600&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="demo-banner" id="demoBanner" hidden>Chế độ DEMO: dữ liệu chỉ lưu trong trình duyệt này. Điền khóa Supabase vào config.js để chạy thật.</div>
 
-<header class="top">
-  <div class="brand">
-    <span class="eyebrow">Code the Thanks 2026 · Đại học Tây Nguyên</span>
-    <h1>Cây Tri Ân <span>Tây Nguyên</span></h1>
-    <p class="tag">Mỗi lời cảm ơn gửi thầy cô là một chiếc lá mới trên cây tri thức chung của chúng ta.</p>
+<body class="editorial-body">
+
+  <div class="demo-banner" id="demoBanner" hidden>
+    Chế độ DEMO: Dữ liệu đang lưu tạm trong trình duyệt này. Điền khóa Supabase vào <code>config.js</code> để đồng bộ dữ
+    liệu thật.
   </div>
-  <div class="qrbox" id="qrBox" hidden>
-    <div id="qr"></div>
-    <p>Quét để gieo lời cảm ơn</p>
-    <small id="qrUrl"></small>
+
+  <!-- ======================================================================
+     TỜ BÁO TƯỜNG NGHỆ THUẬT VẼ TAY (HANDCRAFTED BROADSHEET POSTER)
+     ====================================================================== -->
+  <div class="broadsheet-container" id="newspaperBoard">
+
+    <!-- Cành lá màu nước trang trí góc báo tường (pointer-events: none) -->
+    <div class="ambient-corner-decor" aria-hidden="true">
+      <img src="assets/corner_leaves.png" alt="" class="decor-corner-bl" width="160" height="230" loading="eager">
+    </div>
+
+    <!-- ==================== PHẦN ĐẦU BÁO TƯỜNG (MASTHEAD) ==================== -->
+    <header class="broadsheet-masthead">
+      <div class="masthead-top-row">
+        <!-- Góc trái: Huy hiệu Đoàn chính thức & Thông tin tổ chức -->
+        <div class="masthead-org-identity">
+          <img src="logo-doan.png" alt="Huy hiệu Đoàn Thanh niên Cộng sản Hồ Chí Minh chính thức"
+            class="official-emblem" width="60" height="66" loading="eager">
+          <div class="masthead-org-titles">
+            <span class="org-line-1">ĐOÀN TNCS HỒ CHÍ MINH</span>
+
+          </div>
+        </div>
+
+        <!-- Trung tâm: Đại tự CÂY TRI ÂN TÂY NGUYÊN kết hợp hoa sen màu nước -->
+        <div class="masthead-title-block">
+          <div class="title-with-lotus">
+            <!-- Đóa sen hồng trái từ bộ tranh màu nước -->
+            <img src="assets/lotus_header.png" alt="Hoa sen hồng trang trí tiêu đề" class="masthead-lotus lotus-left"
+              width="58" height="52" loading="eager">
+
+            <!-- Tiêu đề lớn Báo tường nghệ thuật -->
+            <div class="title-calligraphy-wrap">
+              <h1 class="broadsheet-headline">
+                <span class="headline-primary">CÂY TRI ÂN</span>
+                <span class="headline-wood-badge">
+                  <span class="wood-text">TÂY NGUYÊN</span>
+                </span>
+              </h1>
+            </div>
+
+            <!-- Đóa sen hồng phải từ bộ tranh màu nước (lật ngang cân đối) -->
+            <img src="assets/lotus_header.png" alt="Hoa sen hồng trang trí tiêu đề" class="masthead-lotus lotus-right"
+              width="58" height="52" loading="eager">
+          </div>
+
+          <!-- Dải băng đỏ thư pháp: Chúc Mừng Ngày Nhà Giáo Việt Nam 20-11 -->
+          <div class="salute-ribbon">
+            <span class="ribbon-tail left" aria-hidden="true">❖</span>
+            <h2 class="salute-calligraphy">Chúc Mừng Ngày Nhà Giáo Việt Nam</h2>
+            <span class="salute-number-badge">20 · 11</span>
+            <span class="ribbon-tail right" aria-hidden="true">❖</span>
+          </div>
+        </div>
+
+        <!-- Góc phải: Tranh màu nước mái trường Đại học Tây Nguyên giữa đồi núi -->
+        <div class="masthead-campus-vignette" aria-label="Mái trường Đại học Tây Nguyên">
+          <img src="assets/campus.png" alt="Tranh màu nước mái trường Đại học Tây Nguyên giữa đồi núi thông reo"
+            class="campus-watercolor-img" width="150" height="70" loading="eager">
+        </div>
+
+        <!-- Hộp QR offline nhỏ gọn (khi dùng máy chiếu) -->
+        <div class="masthead-qr" id="qrBox" hidden>
+          <div id="qr"></div>
+          <span class="qr-label">Quét để gieo lời cảm ơn</span>
+          <small id="qrUrl"></small>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== BỐ CỤC NGHỆ THUẬT BÁO TƯỜNG (3 CỘT KHÔNG GIAN) ==================== -->
+    <main class="broadsheet-layout">
+
+      <!-- ==================== CỘT TRÁI (LEFT EDITORIAL) ==================== -->
+      <aside class="editorial-col col-left">
+        <!-- CHUYÊN MỤC 1: LỜI NGỎ -->
+        <section class="handcrafted-note note-loi-ngo">
+          <div class="note-header">
+            <h3 class="section-headline">Lời Ngỏ</h3>
+            <!-- Bút lông và bình mực vẽ tay màu nước -->
+            <img src="assets/quill_ink.png" alt="Bút lông và bình mực" class="art-icon-img" width="46" height="58"
+              loading="eager">
+          </div>
+          <div class="article-divider"></div>
+          <div class="note-body">
+            <p>
+              Tháng Mười Một về, gió cao nguyên se lạnh, mang theo bao cảm xúc tri ân. Đây là dịp để chúng em gửi lời
+              biết ơn sâu sắc tới thầy cô – những người đã âm thầm gieo mầm tri thức, chắp cánh ước mơ cho bao thế hệ
+              sinh viên Tây Nguyên.
+            </p>
+            <div class="hand-drawn-heart" aria-hidden="true">♡</div>
+          </div>
+        </section>
+
+        <!-- CHUYÊN MỤC 4: TRI ÂN THẦY CÔ -->
+        <section class="handcrafted-note note-tri-an">
+          <div class="note-header">
+            <h3 class="section-headline">Tri Ân Thầy Cô</h3>
+            <!-- Đóa sen hồng nở thắm từ bộ minh họa -->
+            <img src="assets/lotus_bloom.png" alt="Đóa sen hồng" class="art-icon-img lotus-icon" width="60" height="28"
+              loading="eager">
+          </div>
+          <div class="article-divider"></div>
+          <div class="note-body">
+            <p>
+              Cảm ơn thầy, cô vì đã luôn kiên nhẫn, tận tâm và yêu thương chúng em. Những bài học, những lời dạy và cả
+              những giá trị sống thầy cô truyền trao sẽ mãi là hành trang quý giá trong suốt chặng đường tương lai.
+            </p>
+          </div>
+          <!-- Chồng sách cổ bọc bìa da màu nước dưới chân chuyên mục -->
+          <div class="antique-books-decor" aria-hidden="true">
+            <img src="assets/books_stack.png" alt="Chồng sách cổ bọc bìa da" class="books-stack-img" width="135"
+              height="98" loading="eager">
+          </div>
+        </section>
+      </aside>
+
+      <!-- ==================== CỘT TRUNG TÂM: CÂY TRI ÂN ĐẠI THỤ ==================== -->
+      <section class="exhibition-centerpiece" aria-label="Không gian Cây Tri Ân">
+
+        <!-- CHUYÊN MỤC 2: XÃ LUẬN – NGƯỜI LÁI ĐÒ THẦM LẶNG (QUYỂN SÁCH MỞ MÀU NƯỚC) -->
+        <section class="open-book-editorial">
+          <div class="open-book-container">
+            <div class="book-header-with-art">
+              <img src="assets/open_book.png" alt="Quyển sách mở của tri thức" class="open-book-art-img" width="95"
+                height="54" loading="eager">
+              <div class="book-titles">
+                <span class="book-kicker">Xã Luận</span>
+                <h3 class="book-headline">Người Lái Đò Thầm Lặng</h3>
+              </div>
+            </div>
+            <p class="book-quote-text">
+              “Giữa dòng chảy hối hả của thời gian, nghề giáo vẫn luôn là một hành trình đặc biệt, nơi những con người
+              bình dị lặng lẽ gieo tri thức và nhân cách cho thế hệ mai sau...”
+            </p>
+          </div>
+        </section>
+
+        <!-- THANH ĐIỀU KHIỂN ĐỈNH CÂY (PILLS CHUẨN CONCEPT) -->
+        <div class="tree-top-toolbar">
+          <div class="tree-counter-pill">
+            <span class="sprout-icon">🌱</span>
+            <span class="counter-text"><b id="count">0</b> chiếc lá tri ân đã nở</span>
+          </div>
+
+          <button class="btn-moment-exhibition" id="momentTriggerBtn" type="button"
+            title="Mở chế độ trình chiếu triển lãm toàn màn hình">
+            <span class="btn-sparkle">✨</span> Khoảnh Khắc Cây Tri Ân
+          </button>
+        </div>
+
+        <!-- KHÔNG GIAN CÂY CỔ THỤ NGHỆ THUẬT VẼ TAY (600x640) -->
+        <div class="tree-stage-wrapper">
+          <div class="stage" aria-label="Cây Tri Ân Cổ Thụ">
+            <svg id="tree" viewBox="0 0 1024 779" role="img"
+              aria-label="Cây Tri Ân Tây Nguyên vẽ tay thủ công với lộc non tri ân" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Hào quang ánh sáng tri thức tỏa lên từ cuốn sách mở tại gốc cây -->
+                <radialGradient id="bookAura" cx="50%" cy="85%" r="35%">
+                  <stop offset="0%" stop-color="#FFF9C4" stop-opacity=".75" />
+                  <stop offset="35%" stop-color="#FFE082" stop-opacity=".45" />
+                  <stop offset="70%" stop-color="#FFD54F" stop-opacity=".15" />
+                  <stop offset="100%" stop-color="#FFFDE7" stop-opacity="0" />
+                </radialGradient>
+
+                <!-- Hạt bụi vàng và đom đóm lấp lánh -->
+                <radialGradient id="fireflyGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+                  <stop offset="40%" stop-color="#FFF59D" stop-opacity=".9" />
+                  <stop offset="80%" stop-color="#FFD54F" stop-opacity=".5" />
+                  <stop offset="100%" stop-color="#FBC02D" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+
+              <!-- HÌNH MINH HỌA CÂY MÀU NƯỚC CHÍNH (assets/images/cay-tri-an-watercolor.png) -->
+              <image href="assets/images/cay-tri-an-watercolor.png" x="0" y="0" width="1024" height="779"
+                preserveAspectRatio="xMidYMid meet" class="tree-artwork-canvas" />
+
+              <!-- ÁNH HÀO QUANG VÀNG TỎA LÊN TỪ CUỐN SÁCH MỞ TẠI GỐC CÂY -->
+              <ellipse cx="512" cy="710" rx="230" ry="85" fill="url(#bookAura)" class="book-glow-aura" />
+
+              <!-- CÁC HẠT ĐOM ĐÓM VÀ BỤI NẮNG VÀNG LƠ LỬNG QUANH TÁN CÂY -->
+              <g class="fireflies-group" aria-hidden="true">
+                <circle cx="280" cy="180" r="4" fill="url(#fireflyGrad)" class="ff-item ff-1" />
+                <circle cx="410" cy="120" r="5" fill="url(#fireflyGrad)" class="ff-item ff-2" />
+                <circle cx="560" cy="95" r="4.5" fill="url(#fireflyGrad)" class="ff-item ff-3" />
+                <circle cx="720" cy="160" r="4" fill="url(#fireflyGrad)" class="ff-item ff-4" />
+                <circle cx="340" cy="270" r="3.5" fill="url(#fireflyGrad)" class="ff-item ff-5" />
+                <circle cx="680" cy="260" r="4.5" fill="url(#fireflyGrad)" class="ff-item ff-6" />
+                <circle cx="210" cy="240" r="3.5" fill="url(#fireflyGrad)" class="ff-item ff-7" />
+                <circle cx="810" cy="225" r="4" fill="url(#fireflyGrad)" class="ff-item ff-8" />
+                <circle cx="490" cy="310" r="3" fill="url(#fireflyGrad)" class="ff-item ff-9" />
+                <circle cx="530" cy="210" r="4" fill="url(#fireflyGrad)" class="ff-item ff-10" />
+                <circle cx="470" cy="670" r="3.5" fill="url(#fireflyGrad)" class="ff-item ff-11" />
+                <circle cx="550" cy="665" r="4" fill="url(#fireflyGrad)" class="ff-item ff-12" />
+              </g>
+
+              <!-- CÁC VỊ TRÍ SLOTS ĐÓN NHẬN LỘC NON TRI ÂN -->
+              <g id="slots"></g>
+
+              <!-- CÁC CHIẾC LÁ TRI ÂN THẬT TỪ SUPABASE (INTERACTIVE LEAVES) -->
+              <g id="leaves"></g>
+            </svg>
+
+            <div class="empty" id="emptyHint" hidden>Cây đang chờ chiếc lá đầu tiên. Hãy gieo một mầm xanh nhé!</div>
+          </div>
+
+          <!-- HÀNH ĐỘNG CHÍNH: NÚT GIEO LỜI CẢM ƠN -->
+          <div class="tree-interactive-actions">
+            <button class="cta plant-btn-monument" id="plantBtn" type="button">
+              <span class="btn-leaf-icon">🌱</span>
+              <span class="btn-text-wrap">
+                <strong>Gieo một lời cảm ơn</strong>
+                <small>Mỗi lời tri ân là một mầm xanh trên cây</small>
+              </span>
+            </button>
+            <p class="hint-tap">Chạm vào bất kỳ chiếc lá nào trên cây để đọc lời tri ân gửi thầy cô.</p>
+          </div>
+
+          <!-- Chú thích đối tượng phân loại lá / hoa -->
+          <ul class="legend" id="legend"></ul>
+
+          <!-- Ticker lời nhắn đang chạy (Chế độ thường) -->
+          <div class="ticker" id="ticker" hidden aria-live="polite">
+            <div class="who" id="tkWho"></div>
+            <div class="txt" id="tkTxt"></div>
+          </div>
+        </div>
+
+        <!-- CHUYÊN MỤC 6: LỜI KẾT (NẰM TRANG TRỌNG DƯỚI CHÂN CÂY TRI ÂN) -->
+        <section class="handcrafted-epilogue">
+          <div class="epilogue-header">
+            <h3 class="section-headline">Lời Kết</h3>
+            <!-- Cành cà phê chín mọng và tách cà phê cao nguyên từ tranh màu nước -->
+            <div class="coffee-cup-art" aria-hidden="true">
+              <img src="assets/coffee_cup.png" alt="Tách cà phê cao nguyên thơm ngát" class="coffee-cup-img" width="110"
+                height="75" loading="eager">
+            </div>
+          </div>
+          <div class="epilogue-content">
+            <p class="epilogue-blessing">
+              Nhân ngày Nhà giáo Việt Nam 20/11, kính chúc quý thầy cô luôn mạnh khỏe, hạnh phúc và giữ mãi ngọn lửa
+              nhiệt huyết với sự nghiệp trồng người.
+            </p>
+            <p class="epilogue-signature">
+              Cảm ơn thầy cô – những người đã và đang thắp sáng bao ước mơ!
+            </p>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- ==================== CỘT PHẢI (RIGHT EDITORIAL) ==================== -->
+      <aside class="editorial-col col-right">
+        <!-- CHUYÊN MỤC 3: KÝ ỨC DƯỚI MÁI TRƯỜNG -->
+        <section class="handcrafted-note note-ky-uc">
+          <!-- Khung ảnh chụp polaroid kỷ niệm trường lớp dán nghiêng bằng băng dính -->
+          <div class="polaroid-snapshot-wrap">
+            <img src="assets/polaroid_photo.png" alt="Ảnh chụp kỷ niệm mái trường xưa" class="polaroid-photo-img"
+              width="115" height="138" loading="eager">
+          </div>
+
+          <div class="note-header">
+            <h3 class="section-headline">Ký Ức Dưới Mái Trường</h3>
+          </div>
+          <div class="article-divider"></div>
+          <div class="note-body">
+            <p>
+              Có những buổi sáng sương mù phủ trắng giảng đường, có những giờ học rộn tiếng cười, và có cả những kỷ niệm
+              giản dị đã trở thành một phần thanh xuân đáng nhớ.
+            </p>
+          </div>
+        </section>
+
+        <!-- CHUYÊN MỤC 5: NHỮNG NGƯỜI TRUYỀN CẢM HƯNG -->
+        <section class="handcrafted-note note-cam-hung">
+          <div class="note-header">
+            <h3 class="section-headline">Những Người Truyền Cảm Hứng</h3>
+            <!-- Ngọn đèn bão ấm áp từ bộ minh họa -->
+            <img src="assets/lantern.png" alt="Ngọn đèn bão tỏa sáng ấm áp" class="art-icon-img lantern-img" width="40"
+              height="68" loading="eager">
+          </div>
+          <div class="article-divider"></div>
+          <div class="note-body">
+            <p>
+              Thầy cô không chỉ trao kiến thức, mà còn thắp lên trong chúng em niềm tin, nghị lực và khát vọng vươn xa.
+              Những câu chuyện, tấm gương và sự tận tâm của thầy cô luôn là nguồn cảm hứng để chúng em nỗ lực hơn mỗi
+              ngày.
+            </p>
+            <!-- Máy bay giấy origami từ bộ minh họa -->
+            <div class="paper-airplane-decor" aria-hidden="true">
+              <img src="assets/paper_plane.png" alt="Chiếc máy bay giấy origami ước mơ" class="paper-plane-img"
+                width="70" height="45" loading="eager">
+            </div>
+          </div>
+        </section>
+      </aside>
+
+    </main>
+
+    <!-- ==================== CHÂN TRANG BÁO TƯỜNG (COLOPHON) ==================== -->
+    <footer class="broadsheet-footer">
+      <div class="broadsheet-colophon">
+        <span>Cây Tri Ân Tây Nguyên · Công trình chào mừng Ngày Nhà Giáo Việt Nam 20/11</span>
+        <span>Đoàn Trường Đại học Tây Nguyên · Hội Sinh viên Trường Đại học Tây Nguyên</span>
+      </div>
+    </footer>
+
   </div>
-</header>
 
-<main>
-  <section class="stage" aria-label="Cây tri ân">
-    <div class="counter"><b id="count">0</b> lời tri ân đã nảy mầm</div>
-    <svg id="tree" viewBox="0 0 600 640" role="img" aria-label="Cây tri ân với những chiếc lá là lời cảm ơn" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0" stop-color="#4FB477" stop-opacity=".28"/>
-          <stop offset="1" stop-color="#4FB477" stop-opacity="0"/>
-        </radialGradient>
-        <linearGradient id="bark" x1="0" x2="1">
-          <stop offset="0" stop-color="#5A3720"/><stop offset=".5" stop-color="#7A4C2C"/><stop offset="1" stop-color="#5A3720"/>
-        </linearGradient>
-        <linearGradient id="soilg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#A9502B"/><stop offset="1" stop-color="#6E2D15"/>
-        </linearGradient>
-        <g id="dq">
-          <g fill="#F7C531">
-            <ellipse cx="0" cy="-7" rx="2.6" ry="6"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(45)"/>
-            <ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(90)"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(135)"/>
-            <ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(180)"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(225)"/>
-            <ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(270)"/><ellipse cx="0" cy="-7" rx="2.6" ry="6" transform="rotate(315)"/>
-          </g>
-          <circle r="4" fill="#6B3410"/>
-        </g>
-      </defs>
+  <!-- ======================================================================
+     FORM GIEO MẦM 3 BƯỚC (ELEGANT EDITORIAL FORM MODAL)
+     ====================================================================== -->
+  <div class="overlay" id="formOverlay" hidden>
+    <div class="sheet editorial-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <button class="close" id="closeForm" type="button" aria-label="Đóng biểu mẫu">×</button>
+      <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
 
-      <ellipse cx="300" cy="245" rx="285" ry="240" fill="url(#halo)"/>
-      <g id="flies">
-        <circle class="fly" cx="90" cy="420" r="2.2" style="animation-delay:0s"/>
-        <circle class="fly" cx="505" cy="380" r="2" style="animation-delay:1.8s"/>
-        <circle class="fly" cx="150" cy="520" r="2.4" style="animation-delay:3.2s"/>
-        <circle class="fly" cx="455" cy="500" r="2" style="animation-delay:4.6s"/>
-        <circle class="fly" cx="60" cy="250" r="1.8" style="animation-delay:2.4s"/>
-        <circle class="fly" cx="545" cy="210" r="2.2" style="animation-delay:5.5s"/>
-      </g>
+      <!-- BƯỚC 1: ĐỊNH DANH -->
+      <section data-step="1">
+        <h2 id="sheetTitle">CÂY TRI ÂN TÂY NGUYÊN</h2>
+        <p class="lead">Trước khi gieo một lời cảm ơn gửi thầy cô...</p>
 
-      <g class="crown">
-        <g stroke="url(#bark)" stroke-linecap="round" fill="none">
-          <path d="M300 490 C300 420 298 360 300 295" stroke-width="20"/>
-          <path d="M296 445 C260 412 215 392 170 340" stroke-width="12"/>
-          <path d="M304 435 C345 408 392 388 440 335" stroke-width="12"/>
-          <path d="M298 365 C270 335 245 300 225 250" stroke-width="8"/>
-          <path d="M302 355 C335 322 360 292 385 235" stroke-width="8"/>
-          <path d="M300 300 C290 260 285 220 280 175" stroke-width="6"/>
-          <path d="M300 300 C312 260 322 220 332 170" stroke-width="6"/>
-          <path d="M170 340 C140 320 110 300 85 262" stroke-width="5"/>
-          <path d="M440 335 C470 315 500 290 520 250" stroke-width="5"/>
-        </g>
-        <path d="M258 616 C272 572 281 525 283 470 L317 470 C319 525 328 572 342 616 Z" fill="url(#bark)"/>
-        <g id="slots"></g>
-        <g id="leaves"></g>
-      </g>
+        <div class="form-group">
+          <label for="nameInput">Bạn muốn chúng mình gọi bạn là gì?</label>
+          <input type="text" id="nameInput" maxlength="30" placeholder="Ví dụ: Minh Anh, Học trò khóa 2022..."
+            autocomplete="nickname">
+        </div>
 
-      <ellipse cx="300" cy="618" rx="250" ry="22" fill="url(#soilg)"/>
-      <ellipse cx="300" cy="610" rx="215" ry="12" fill="#B95E33" opacity=".55"/>
-      <use href="#dq" transform="translate(110 606) scale(.9)"/>
-      <use href="#dq" transform="translate(150 612) scale(.7)"/>
-      <use href="#dq" transform="translate(470 606) scale(.9)"/>
-      <use href="#dq" transform="translate(432 613) scale(.7)"/>
-      <use href="#dq" transform="translate(215 619) scale(.6)"/>
-      <use href="#dq" transform="translate(392 619) scale(.6)"/>
-    </svg>
-    <div class="empty" id="emptyHint" hidden>Cây đang chờ chiếc lá đầu tiên. Bạn gieo mầm nhé?</div>
-  </section>
+        <label class="check editorial-check">
+          <input type="checkbox" id="anonChk">
+          <span>Gửi ẩn danh (Người gửi sẽ hiển thị là <em>"Một người ẩn danh"</em>)</span>
+        </label>
 
-  <div class="actions"><button class="cta" id="plantBtn" type="button">🌱 Gieo một lời cảm ơn</button></div>
-  <p class="hint-tap">Chạm vào một chiếc lá để đọc lời tri ân.</p>
-  <ul class="legend" id="legend"></ul>
-  <div class="ticker" id="ticker" hidden aria-live="polite"><div class="who" id="tkWho"></div><div class="txt" id="tkTxt"></div></div>
-</main>
+        <p class="hint">Không cần tạo tài khoản hay đăng nhập. Bạn có thể dùng tên thật, bút danh hoặc gửi ẩn danh.</p>
 
-<footer>Cây Tri Ân Tây Nguyên · Sản phẩm dự thi Code the Thanks 2026 · Lời nhắn được kiểm duyệt trước khi hiển thị.</footer>
+        <div class="row">
+          <button class="btn primary btn-editorial" id="toStep2" type="button" disabled>Tiếp tục gieo mầm →</button>
+        </div>
+      </section>
 
-<!-- Form gieo lời cảm ơn -->
-<div class="overlay" id="formOverlay" hidden>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
-    <button class="close" id="closeForm" type="button" aria-label="Đóng">×</button>
-    <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+      <!-- BƯỚC 2: SOẠN LỜI TRI ÂN -->
+      <section data-step="2" hidden>
+        <h2>Viết lời tri ân gửi thầy cô</h2>
+        <p class="q">Bạn muốn gửi lời cảm ơn này đến ai?</p>
+        <div class="chips" id="recipChips" role="radiogroup" aria-label="Người nhận lời cảm ơn"></div>
 
-    <section data-step="1">
-      <h2 id="sheetTitle">CÂY TRI ÂN</h2>
-      <p class="lead">Trước khi gieo một lời cảm ơn...</p>
-      <label for="nameInput">Bạn muốn chúng mình gọi bạn là gì?</label>
-      <input type="text" id="nameInput" maxlength="30" placeholder="Ví dụ: Minh Anh" autocomplete="nickname">
-      <label class="check"><input type="checkbox" id="anonChk"><span>Gửi ẩn danh</span></label>
-      <p class="hint">Có thể dùng tên gọi thân mật hoặc chọn gửi ẩn danh. Không cần tài khoản, không cần đăng nhập.</p>
-      <div class="row"><button class="btn primary" id="toStep2" type="button" disabled>Tiếp tục</button></div>
-    </section>
+        <div id="recipNameWrap" hidden>
+          <label for="recipName">Tên thầy cô (không bắt buộc)</label>
+          <input type="text" id="recipName" maxlength="40" placeholder="Ví dụ: Cô chủ nhiệm lớp 12, Thầy dạy Toán...">
+        </div>
 
-    <section data-step="2" hidden>
-      <h2>Viết lời tri ân</h2>
-      <p class="q">Bạn muốn gửi lời cảm ơn đến ai?</p>
-      <div class="chips" id="recipChips" role="radiogroup" aria-label="Người nhận lời cảm ơn"></div>
-      <div id="recipNameWrap" hidden>
-        <label for="recipName">Tên thầy cô (không bắt buộc)</label>
-        <input type="text" id="recipName" maxlength="40" placeholder="Ví dụ: cô chủ nhiệm lớp 12, thầy Toán">
-      </div>
-      <label for="msg">Lời nhắn của bạn</label>
-      <textarea id="msg" maxlength="400" rows="5" placeholder="Có một điều em luôn muốn nói..."></textarea>
-      <div class="meta"><span id="msgCount">0/400</span></div>
-      <input class="hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <label class="check"><input type="checkbox" id="consentChk"><span id="consentText"></span></label>
-      <p class="hint">Nội dung sẽ được kiểm duyệt trước khi xuất hiện công khai.</p>
-      <p class="error" id="formError" role="alert" hidden></p>
-      <div class="row">
-        <button class="btn ghost" id="backTo1" type="button">Quay lại</button>
-        <button class="btn primary" id="submitBtn" type="button" disabled>Gieo lời cảm ơn</button>
-      </div>
-    </section>
+        <div class="form-group">
+          <label for="msg">Lời nhắn của bạn</label>
+          <textarea id="msg" maxlength="400" rows="5"
+            placeholder="Có một điều em luôn muốn nói với thầy cô mà bấy lâu chưa có dịp..."></textarea>
+          <div class="meta"><span id="msgCount">0/400</span></div>
+        </div>
 
-    <section data-step="3" hidden>
-      <div class="done">
-        <svg viewBox="0 0 120 120" aria-hidden="true">
-          <path d="M20 104 Q60 92 100 104" stroke="#8A3B1E" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <g class="sprout">
-            <path d="M60 100 C60 80 60 66 60 52" stroke="#2F7F57" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <path d="M60 70 C40 68 28 54 26 40 C44 40 58 50 60 70Z" fill="#4FB477"/>
-            <path d="M60 58 C78 58 92 46 94 30 C76 30 62 42 60 58Z" fill="#6CCB93"/>
-          </g>
-        </svg>
-        <h2>Cảm ơn bạn đã gieo một mầm xanh!</h2>
-        <p class="lead" id="doneText">Sau khi được duyệt, chiếc lá sẽ xuất hiện trên cây tri ân chung.</p>
-      </div>
-      <div class="row">
-        <button class="btn ghost" id="againBtn" type="button">Gieo thêm</button>
-        <button class="btn primary" id="viewTree" type="button">Xem cây</button>
-      </div>
-    </section>
+        <!-- Ô bẫy bot honeypot ẩn -->
+        <input class="hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <label class="check editorial-check">
+          <input type="checkbox" id="consentChk">
+          <span id="consentText">Tôi đồng ý cho hiển thị lời nhắn của mình trên Cây Tri Ân sau khi được kiểm
+            duyệt.</span>
+        </label>
+
+        <p class="hint">Nội dung sẽ được kiểm duyệt nhanh chóng để bảo đảm tính tôn nghiêm và văn minh học đường trước
+          khi xuất hiện công khai trên cây.</p>
+        <p class="error" id="formError" role="alert" hidden></p>
+
+        <div class="row">
+          <button class="btn ghost" id="backTo1" type="button">← Quay lại</button>
+          <button class="btn primary btn-editorial" id="submitBtn" type="button" disabled>🌱 Gieo lời cảm ơn</button>
+        </div>
+      </section>
+
+      <!-- BƯỚC 3: XÁC NHẬN MẦM XANH -->
+      <section data-step="3" hidden>
+        <div class="done">
+          <svg viewBox="0 0 120 120" class="sprout-done-svg" aria-hidden="true">
+            <path d="M20 104 Q60 92 100 104" stroke="#8A3B1E" stroke-width="6" fill="none" stroke-linecap="round" />
+            <g class="sprout">
+              <path d="M60 100 C60 80 60 66 60 52" stroke="#2F7F57" stroke-width="5" fill="none"
+                stroke-linecap="round" />
+              <path d="M60 70 C40 68 28 54 26 40 C44 40 58 50 60 70Z" fill="#4FB477" />
+              <path d="M60 58 C78 58 92 46 94 30 C76 30 62 42 60 58Z" fill="#6CCB93" />
+            </g>
+          </svg>
+          <h2>Cảm ơn bạn đã gieo một mầm xanh!</h2>
+          <p class="lead" id="doneText">Sau khi được Ban tổ chức phê duyệt, chiếc lá tri ân của bạn sẽ xuất hiện lung
+            linh trên Cây Tri Ân chung.</p>
+        </div>
+        <div class="row">
+          <button class="btn ghost" id="againBtn" type="button">Gieo thêm lời nhắn</button>
+          <button class="btn primary btn-editorial" id="viewTree" type="button">Chiêm ngưỡng cây</button>
+        </div>
+      </section>
+    </div>
   </div>
-</div>
 
-<!-- Thẻ đọc lời tri ân -->
-<div class="overlay" id="leafOverlay" hidden>
-  <div class="sheet leafcard" role="dialog" aria-modal="true" aria-label="Lời tri ân">
-    <button class="close" id="closeLeaf" type="button" aria-label="Đóng">×</button>
-    <p class="from" id="lcFrom"></p>
-    <blockquote id="lcMsg"></blockquote>
-    <span class="to" id="lcTo"></span>
+  <!-- ======================================================================
+     THẺ ĐỌC LỜI TRI ÂN (EXHIBITION GREETING CARD MODAL)
+     ====================================================================== -->
+  <div class="overlay" id="leafOverlay" hidden>
+    <div class="sheet leafcard exhibition-card" role="dialog" aria-modal="true" aria-label="Lời tri ân">
+      <button class="close" id="closeLeaf" type="button" aria-label="Đóng tấm thiệp">×</button>
+      <div class="card-insignia">20 · 11</div>
+      <div class="card-header">
+        <span class="card-kicker">THÔNG ĐIỆP TRI ÂN</span>
+        <p class="from" id="lcFrom"></p>
+      </div>
+      <blockquote id="lcMsg"></blockquote>
+      <div class="card-footer">
+        <span class="to" id="lcTo"></span>
+        <span class="time-stamp" id="lcTime"></span>
+      </div>
+    </div>
   </div>
-</div>
 
-<script src="config.js"></script>
-<script src="qr.js"></script>
-<script src="app.js"></script>
+  <!-- ======================================================================
+     CHẾ ĐỘ "KHOẢNH KHẮC CÂY TRI ÂN" (EXHIBITION GALA THEATER MODE)
+     ====================================================================== -->
+  <div class="moment-theater" id="momentTheater" hidden>
+    <div class="theater-backdrop"></div>
+
+    <!-- Thanh điều khiển đỉnh màn hình triển lãm -->
+    <header class="theater-topbar">
+      <div class="theater-brand">
+        <span class="theater-badge">TRIỂN LÃM 20/11</span>
+        <h2>Khoảnh Khắc Cây Tri Ân Tây Nguyên</h2>
+      </div>
+
+      <div class="theater-nav-controls">
+        <button class="t-btn" id="momentPrevBtn" type="button" title="Lời nhắn trước (Phím mũi tên Trái)">◀
+          Trước</button>
+        <button class="t-btn primary" id="momentPlayBtn" type="button" title="Tạm dừng / Tiếp tục trình chiếu">⏸ Tạm
+          dừng</button>
+        <button class="t-btn" id="momentNextBtn" type="button" title="Lời nhắn sau (Phím mũi tên Phải)">Sau ▶</button>
+        <button class="t-btn close-theater" id="momentExitBtn" type="button" title="Thoát trình chiếu (Phím Esc)">✖
+          Đóng</button>
+      </div>
+    </header>
+
+    <!-- Sân khấu triển lãm trung tâm (Tỷ lệ 16:9 tối ưu cho máy chiếu) -->
+    <div class="theater-stage">
+      <!-- Cây đại thụ tỏa sáng rực rỡ ở vị trí trung tâm -->
+      <div class="theater-tree-view" id="theaterTreeSlot">
+        <!-- Cây SVG được mount vào đây -->
+      </div>
+
+      <!-- Tấm thẻ tri ân trang trọng hiển thị lời chúc lớn -->
+      <div class="theater-quote-card" id="theaterCard">
+        <div class="quote-ornament">“</div>
+        <p class="theater-text" id="thTxt">Đang nạp lời tri ân...</p>
+        <div class="theater-meta">
+          <div class="meta-row">
+            <span class="sender-label" id="thWho">Người gửi</span>
+            <span class="recipient-badge" id="thTo">Người nhận</span>
+          </div>
+          <div class="theater-time" id="thTime"></div>
+        </div>
+        <div class="progress-indicator" id="thProgress">1 / 1</div>
+      </div>
+    </div>
+
+    <!-- Cụm QR để khán giả tại khán phòng quét gửi ngay -->
+    <div class="theater-qr-dock">
+      <div class="theater-qr-canvas" id="theaterQrCanvas"></div>
+      <div class="theater-qr-label">
+        <b>Quét để gieo lời cảm ơn</b>
+        <span>Lời nhắn được duyệt sẽ xuất hiện trực tiếp lên cây</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="qr.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>

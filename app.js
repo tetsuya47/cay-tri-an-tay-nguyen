@@ -1,5 +1,8 @@
-/* Cây Tri Ân Tây Nguyên – Code the Thanks 2026
-   Không cần thư viện: gọi trực tiếp REST API của Supabase bằng fetch. */
+/* ==========================================================================
+   CÂY TRI ÂN TÂY NGUYÊN – CODE THE THANKS 2026
+   Báo Tường Điện Tử 20/11 · Đại học Tây Nguyên
+   Thuần JavaScript: Gọi trực tiếp REST API của Supabase bằng fetch().
+   ========================================================================== */
 (() => {
   'use strict';
 
@@ -7,20 +10,20 @@
   const BASE = (CFG.SUPABASE_URL || '').replace(/\/+$/, '');
   const DEMO = !BASE || !CFG.SUPABASE_KEY || /YOUR|xxxx/i.test(BASE);
   const PARAMS = new URLSearchParams(location.search);
-  const SCREEN = PARAMS.has('screen');
+  const SCREEN = PARAMS.has('screen') || PARAMS.has('moment');
   const POLL_MS = Math.max(3000, CFG.POLL_MS || 8000);
   const TABLE = 'gratitude_messages';
   const NS = 'http://www.w3.org/2000/svg';
   const $ = (s) => document.querySelector(s);
 
   const RECIPIENTS = {
-    thay_co:               { label: 'Thầy cô',              hue: 145, flower: false, dot: '#3FA66B' },
+    thay_co:               { label: 'Thầy cô',              hue: 145, flower: false, dot: '#2B6E4E' },
     mai_truong:            { label: 'Mái trường',           hue: 172, flower: false, dot: '#2E9C8F' },
-    bai_hoc:               { label: 'Một bài học',          hue: 88,  flower: false, dot: '#8CC63F' },
-    nguoi_truyen_cam_hung: { label: 'Người truyền cảm hứng', hue: 45,  flower: true,  dot: '#F5B82E' },
+    bai_hoc:               { label: 'Một bài học',          hue: 88,  flower: false, dot: '#7CB342' },
+    nguoi_truyen_cam_hung: { label: 'Người truyền cảm hứng', hue: 45,  flower: true,  dot: '#FBC02D' },
   };
 
-  /* ---------- Dữ liệu: Supabase hoặc demo ---------- */
+  /* ---------- Dữ liệu: Supabase hoặc Demo ---------- */
   const DEMO_KEY = 'ctt_demo_v1';
   const DEMO_SEED = [
     ['Minh Anh', 'thay_co', 'cô chủ nhiệm', 'Cảm ơn cô đã kiên nhẫn chờ em hiểu bài, kể cả khi em hỏi lại lần thứ ba.'],
@@ -36,17 +39,24 @@
     ['Tuấn', 'mai_truong', '', 'Cảm ơn mái trường đã cho em nhiều bạn bè từ khắp Tây Nguyên.'],
     [null, 'thay_co', '', 'Gửi các thầy cô: chúng em nhớ từng lời dặn, dù không nói ra.'],
   ];
+
   function demoLoad() {
     const now = Date.now();
     const seed = DEMO_SEED.map((r, i) => ({
-      id: 'seed' + i, sender_name: r[0], is_anonymous: r[0] === null, recipient_type: r[1],
-      recipient_name: r[2] || null, message: r[3], created_at: new Date(now - (DEMO_SEED.length - i) * 3600e3).toISOString(),
+      id: 'seed' + i,
+      sender_name: r[0],
+      is_anonymous: r[0] === null,
+      recipient_type: r[1],
+      recipient_name: r[2] || null,
+      message: r[3],
+      created_at: new Date(now - (DEMO_SEED.length - i) * 3600e3).toISOString(),
     }));
     let mine = [];
     try { mine = JSON.parse(localStorage.getItem(DEMO_KEY) || '[]'); } catch (e) { /* bỏ qua */ }
     return seed.concat(demoFill(now), mine);
   }
-  // ?fill=60 : thêm lá mẫu để quay video / thử cây đầy (chỉ ở chế độ demo)
+
+  // ?fill=60: thêm lá mẫu để quay video / thử cây đầy (chỉ ở chế độ demo)
   const FILL_NAMES = ['An', 'Bình', 'Chi', 'Dũng', 'Giang', 'Hà', 'Khoa', 'Linh', 'My', 'Nam', 'Oanh', 'Phúc', 'Quân', 'Sương', 'Trang', 'Uyên', 'Việt', 'Yến'];
   const FILL_MSGS = [
     'Cảm ơn thầy cô đã không bỏ rơi em những ngày em chán học nhất.',
@@ -60,20 +70,29 @@
     'Cảm ơn người đã tin em làm được khi em chưa tin vào mình.',
     'Những buổi học thêm miễn phí của thầy, em chưa bao giờ quên.',
   ];
+
   function demoFill(now) {
     const n = Math.min(300, Math.max(0, parseInt(PARAMS.get('fill') || '0', 10) || 0));
     const types = Object.keys(RECIPIENTS), out = [];
     for (let i = 0; i < n; i++) {
-      out.push({ id: 'fill' + i, sender_name: i % 5 === 4 ? null : FILL_NAMES[i % FILL_NAMES.length], is_anonymous: i % 5 === 4,
-        recipient_type: types[(i * 7 + (i >> 2)) % types.length], recipient_name: null,
-        message: FILL_MSGS[(i * 3) % FILL_MSGS.length], created_at: new Date(now - (n - i) * 60e3 - 86400e3).toISOString() });
+      out.push({
+        id: 'fill' + i,
+        sender_name: i % 5 === 4 ? null : FILL_NAMES[i % FILL_NAMES.length],
+        is_anonymous: i % 5 === 4,
+        recipient_type: types[(i * 7 + (i >> 2)) % types.length],
+        recipient_name: null,
+        message: FILL_MSGS[(i * 3) % FILL_MSGS.length],
+        created_at: new Date(now - (n - i) * 60e3 - 86400e3).toISOString()
+      });
     }
     return out;
   }
 
   function headers(extra) {
     const h = { apikey: CFG.SUPABASE_KEY, 'Content-Type': 'application/json' };
-    if (CFG.SUPABASE_KEY.indexOf('eyJ') === 0) h.Authorization = 'Bearer ' + CFG.SUPABASE_KEY;
+    if (CFG.SUPABASE_KEY && CFG.SUPABASE_KEY.indexOf('eyJ') === 0) {
+      h.Authorization = 'Bearer ' + CFG.SUPABASE_KEY;
+    }
     return Object.assign(h, extra || {});
   }
 
@@ -91,30 +110,39 @@
     if (DEMO) {
       let mine = [];
       try { mine = JSON.parse(localStorage.getItem(DEMO_KEY) || '[]'); } catch (e) { /* bỏ qua */ }
-      mine.push({ id: 'me' + Date.now(), sender_name: p.sender_name, is_anonymous: p.is_anonymous,
-        recipient_type: p.recipient_type, recipient_name: p.recipient_name, message: p.message,
-        created_at: new Date().toISOString() });
+      mine.push({
+        id: 'me' + Date.now(),
+        sender_name: p.sender_name,
+        is_anonymous: p.is_anonymous,
+        recipient_type: p.recipient_type,
+        recipient_name: p.recipient_name,
+        message: p.message,
+        created_at: new Date().toISOString()
+      });
       localStorage.setItem(DEMO_KEY, JSON.stringify(mine));
       return;
     }
     const r = await fetch(BASE + '/rest/v1/' + TABLE, {
-      method: 'POST', headers: headers({ Prefer: 'return=minimal' }), body: JSON.stringify(p),
+      method: 'POST',
+      headers: headers({ Prefer: 'return=minimal' }),
+      body: JSON.stringify(p),
     });
     if (!r.ok) throw new Error('HTTP ' + r.status);
   }
 
-  /* ---------- Cây: bố cục lá theo phyllotaxis ---------- */
-  const CX = 300, CY = 242, RX = 262, RY = 205, CAP = 200;
+  /* ---------- Cây: Bố cục lá theo Phyllotaxis (Góc vàng Fibonacci) ---------- */
+  const CX = 512, CY = 248, RX = 390, RY = 188, CAP = 200;
   const svg = $('#tree'), gLeaves = $('#leaves'), gSlots = $('#slots');
-  let current = [];            // danh sách đã hiển thị (theo thứ tự thời gian)
+  let current = [];            // Danh sách đã hiển thị
   const nodes = new Map();     // id -> phần tử <g>
 
-  function rnd(seed) {         // mulberry32: ngẫu nhiên cố định theo chỉ số lá
+  function rnd(seed) {         // Mulberry32: Sinh số ngẫu nhiên cố định theo seed
     let a = seed + 0x6D2B79F5;
     a = Math.imul(a ^ (a >>> 15), a | 1);
     a ^= a + Math.imul(a ^ (a >>> 7), a | 61);
     return ((a ^ (a >>> 14)) >>> 0) / 4294967296;
   }
+
   function place(i) {
     const idx = i % CAP, layer = Math.floor(i / CAP);
     const t = Math.sqrt(0.025 + 0.975 * (idx + 0.5) / CAP) * (layer ? 0.9 : 1);
@@ -122,40 +150,99 @@
     const x = CX + RX * t * Math.cos(th), y = CY + RY * t * Math.sin(th);
     return { x, y, ang: Math.atan2(y - CY, x - CX) * 180 / Math.PI };
   }
+
   const el = (name, attrs) => {
     const e = document.createElementNS(NS, name);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
     return e;
   };
-  function leafScale(n) { return Math.max(0.62, 1.3 - Math.max(0, n - 40) * 0.0045); }
 
+  function leafScale(n) {
+    return Math.max(0.85, 1.45 - Math.max(0, n - 40) * 0.0035);
+  }
+
+  /* Tạo hình chiếc lá / hoa kèm thẻ điều ước treo trên cành theo phong cách báo tường */
   function buildLeaf(m, i, n, isNew) {
     const meta = RECIPIENTS[m.recipient_type] || RECIPIENTS.thay_co;
     const p = place(i), r1 = rnd(i * 7 + 1), r2 = rnd(i * 7 + 2), r3 = rnd(i * 7 + 3);
     const s = leafScale(n);
-    const g = el('g', { class: 'leaf' + (isNew ? ' new' : ''), transform: 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')',
-      tabindex: '0', role: 'button', 'aria-label': 'Đọc lời tri ân ' + (i + 1) });
+    
+    const g = el('g', {
+      class: 'leaf' + (isNew ? ' new' : ''),
+      transform: 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')',
+      tabindex: '0',
+      role: 'button',
+      'aria-label': 'Đọc lời tri ân từ ' + who(m)
+    });
+
     const grow = el('g', { class: 'grow' });
-    const rot = el('g', { transform: 'rotate(' + (p.ang + (r1 - 0.5) * 70).toFixed(1) + ') scale(' + s.toFixed(2) + ')' });
+    const rot = el('g', { transform: 'rotate(' + (p.ang + (r1 - 0.5) * 65).toFixed(1) + ') scale(' + s.toFixed(2) + ')' });
     const shape = el('g', { class: 'shape' });
+
     if (meta.flower) {
-      const f = el('g', { transform: 'translate(12 0)' });
-      for (let k = 0; k < 6; k++) f.appendChild(el('ellipse', { cx: 0, cy: -7, rx: 3.4, ry: 7.5, fill: '#F7C531', transform: 'rotate(' + (k * 60) + ')' }));
-      f.appendChild(el('circle', { r: 3.8, fill: '#8A3B1E' }));
+      // Hoa dã quỳ vàng nở rộ cho "Người truyền cảm hứng"
+      const f = el('g', { transform: 'translate(10 0)' });
+      for (let k = 0; k < 8; k++) {
+        f.appendChild(el('ellipse', {
+          cx: 0, cy: -8, rx: 3, ry: 7.5,
+          fill: '#FBC02D', stroke: '#F57F17', 'stroke-width': '.5',
+          transform: 'rotate(' + (k * 45) + ')'
+        }));
+      }
+      f.appendChild(el('circle', { r: 4, fill: '#6D4C41', stroke: '#3E2723', 'stroke-width': '.6' }));
       shape.appendChild(f);
     } else {
-      const light = 36 + r2 * 20, sat = 50 + r3 * 20;
-      shape.appendChild(el('path', { d: 'M0 0 C7 -10 21 -10 29 0 C21 10 7 10 0 0Z', fill: 'hsl(' + (meta.hue + (r3 - .5) * 16).toFixed(0) + ' ' + sat.toFixed(0) + '% ' + light.toFixed(0) + '%)' }));
-      shape.appendChild(el('path', { d: 'M2 0 L25 0', stroke: 'rgba(255,255,255,.38)', 'stroke-width': '.9', fill: 'none' }));
+      // Chiếc lá xanh tự nhiên kèm thẻ thiệp ước nguyện nhỏ viền chỉ đung đưa
+      const light = 34 + r2 * 22, sat = 48 + r3 * 22;
+      const leafColor = 'hsl(' + (meta.hue + (r3 - 0.5) * 16).toFixed(0) + ' ' + sat.toFixed(0) + '% ' + light.toFixed(0) + '%)';
+      
+      // Phiến lá
+      shape.appendChild(el('path', {
+        d: 'M0 0 C7 -10 22 -10 30 0 C22 10 7 10 0 0Z',
+        fill: leafColor,
+        stroke: 'rgba(255,255,255,0.25)',
+        'stroke-width': '.8'
+      }));
+      // Gân lá
+      shape.appendChild(el('path', {
+        d: 'M2 0 L26 0',
+        stroke: 'rgba(255,255,255,0.45)',
+        'stroke-width': '.9',
+        fill: 'none'
+      }));
+      
+      // Thẻ thiệp ước nguyện mini treo dưới lá (như trên bản concept báo tường)
+      const tagGroup = el('g', { transform: 'translate(16 3)', class: 'wish-tag' });
+      // Sợi dây treo
+      tagGroup.appendChild(el('line', { x1: 0, y1: 0, x2: 0, y2: 12, stroke: '#8D6E63', 'stroke-width': '1' }));
+      // Thẻ giấy kem
+      tagGroup.appendChild(el('rect', { x: -6, y: 12, width: 12, height: 16, rx: 2, fill: '#FFFDF7', stroke: '#8D6E63', 'stroke-width': '.8' }));
+      // Trái tim đỏ nhỏ giữa thẻ
+      tagGroup.appendChild(el('path', {
+        d: 'M0 16 C-2 14 -4.5 15.5 -4.5 18 C-4.5 20.5 0 23 0 23 C0 23 4.5 20.5 4.5 18 C4.5 15.5 2 14 0 16 Z',
+        fill: '#E53935'
+      }));
+      shape.appendChild(tagGroup);
     }
+
     rot.appendChild(shape);
     grow.appendChild(rot);
     g.appendChild(grow);
-    g.appendChild(el('circle', { r: 17, fill: 'transparent', cx: 0, cy: 0 })); // vùng chạm lớn cho điện thoại
+
+    // Vùng chạm ngón tay rộng (Touch target r=24) cho điện thoại
+    g.appendChild(el('circle', { r: 24, fill: 'transparent', cx: 0, cy: 0 }));
+
     if (isNew) g.style.animationDelay = '0s';
+
     const open = () => showLeaf(m);
     g.addEventListener('click', open);
-    g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    g.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        open();
+      }
+    });
+
     return g;
   }
 
@@ -164,26 +251,39 @@
     const total = Math.min(Math.max(n + 24, 48), CAP);
     for (let i = n; i < total; i++) {
       const p = place(i);
-      gSlots.appendChild(el('circle', { class: 'slot', cx: p.x.toFixed(1), cy: p.y.toFixed(1), r: 4 }));
+      gSlots.appendChild(el('circle', { class: 'slot', cx: p.x.toFixed(1), cy: p.y.toFixed(1), r: 5 }));
     }
   }
 
+  /* Render cây: Tối ưu không phá vỡ DOM cũ để lá mới nảy mầm bung nở mượt mà */
   function renderTree(list, animateNew) {
     const sameBase = current.length <= list.length && current.every((m, i) => list[i] && list[i].id === m.id);
-    const scaleChanged = leafScale(current.length) !== leafScale(list.length);
-    if (!sameBase || scaleChanged) {                 // vẽ lại toàn bộ (có lá bị gỡ, hoặc cây đầy hơn)
-      gLeaves.textContent = ''; nodes.clear();
-      list.forEach((m, i) => { const g = buildLeaf(m, i, list.length, false); nodes.set(m.id, g); gLeaves.appendChild(g); });
+    
+    if (!sameBase) {
+      // Có lá bị gỡ hoặc cấu trúc thay đổi hoàn toàn: vẽ lại toàn bộ
+      gLeaves.textContent = '';
+      nodes.clear();
+      list.forEach((m, i) => {
+        const g = buildLeaf(m, i, list.length, false);
+        nodes.set(m.id, g);
+        gLeaves.appendChild(g);
+      });
     } else {
+      // Chỉ có lá mới thêm vào: nạp tiếp các lá mới và kích hoạt animation bung nở
       for (let i = current.length; i < list.length; i++) {
         const g = buildLeaf(list[i], i, list.length, animateNew);
-        nodes.set(list[i].id, g); gLeaves.appendChild(g);
+        nodes.set(list[i].id, g);
+        gLeaves.appendChild(g);
       }
     }
+
     const added = list.slice(current.length);
     current = list.slice();
     drawSlots(list.length);
-    $('#emptyHint').hidden = list.length > 0;
+    
+    const emptyHint = $('#emptyHint');
+    if (emptyHint) emptyHint.hidden = list.length > 0;
+    
     animateCount(list.length);
     return sameBase ? added : [];
   }
@@ -192,6 +292,7 @@
   function animateCount(to) {
     const out = $('#count'), from = shownCount;
     shownCount = to;
+    if (!out) return;
     if (from === to) { out.textContent = to; return; }
     const t0 = performance.now(), dur = 700;
     const step = (t) => {
@@ -202,42 +303,76 @@
     requestAnimationFrame(step);
   }
 
-  /* ---------- Đọc lời tri ân ---------- */
-  function who(m) { return m.is_anonymous || !m.sender_name ? 'Một người ẩn danh' : m.sender_name; }
+  /* ---------- Đọc lời tri ân (Vintage Postcard Modal) ---------- */
+  function who(m) {
+    return m.is_anonymous || !m.sender_name ? 'Một người ẩn danh' : m.sender_name;
+  }
+
   function toLabel(m) {
     const meta = RECIPIENTS[m.recipient_type] || RECIPIENTS.thay_co;
     return meta.label + (m.recipient_name ? ' · ' + m.recipient_name : '');
   }
+
   function showLeaf(m) {
-    $('#lcFrom').textContent = who(m) + ' gửi lời cảm ơn';
+    $('#lcFrom').textContent = who(m) + ' gửi lời tri ân';
     $('#lcMsg').textContent = '“' + m.message + '”';
     $('#lcTo').textContent = 'Gửi đến: ' + toLabel(m);
+    
+    const timeEl = $('#lcTime');
+    if (timeEl && m.created_at) {
+      try {
+        const d = new Date(m.created_at);
+        timeEl.textContent = 'Gửi lúc ' + d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' · ' + d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      } catch (e) {
+        timeEl.textContent = '';
+      }
+    }
+    
     $('#leafOverlay').hidden = false;
   }
-  $('#closeLeaf').addEventListener('click', () => { $('#leafOverlay').hidden = true; });
-  $('#leafOverlay').addEventListener('click', (e) => { if (e.target.id === 'leafOverlay') e.currentTarget.hidden = true; });
 
-  /* ---------- Form 3 bước ---------- */
+  $('#closeLeaf').addEventListener('click', () => { $('#leafOverlay').hidden = true; });
+  $('#leafOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'leafOverlay') e.currentTarget.hidden = true;
+  });
+
+  /* ---------- Form 3 bước (Wizard) ---------- */
   const overlay = $('#formOverlay');
   const state = { name: '', anon: false, type: 'thay_co' };
+
   function setStep(n) {
-    overlay.querySelectorAll('section[data-step]').forEach((s) => { s.hidden = Number(s.dataset.step) !== n; });
+    overlay.querySelectorAll('section[data-step]').forEach((s) => {
+      s.hidden = Number(s.dataset.step) !== n;
+    });
     overlay.querySelectorAll('.steps i').forEach((i, k) => i.classList.toggle('on', k < n));
-    const sheet = overlay.querySelector('.sheet'); if (sheet) sheet.scrollTop = 0;
+    const sheet = overlay.querySelector('.sheet');
+    if (sheet) sheet.scrollTop = 0;
   }
+
   function openForm() {
-    overlay.hidden = false; setStep(1); $('#formError').hidden = true;
+    overlay.hidden = false;
+    setStep(1);
+    $('#formError').hidden = true;
     setTimeout(() => $('#nameInput').focus(), 50);
   }
-  function closeForm() { overlay.hidden = true; }
+
+  function closeForm() {
+    overlay.hidden = true;
+  }
+
   $('#plantBtn').addEventListener('click', openForm);
   $('#closeForm').addEventListener('click', closeForm);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeForm(); });
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeForm(); $('#leafOverlay').hidden = true; }
+    if (e.key === 'Escape') {
+      closeForm();
+      $('#leafOverlay').hidden = true;
+      closeMomentTheater();
+    }
   });
 
-  // Bước 1: nhập tên hoặc ẩn danh
+  // Bước 1: Nhập tên hoặc chọn ẩn danh
   const nameInput = $('#nameInput'), anonChk = $('#anonChk'), toStep2 = $('#toStep2');
   function validStep1() {
     state.anon = anonChk.checked;
@@ -247,28 +382,43 @@
   }
   nameInput.addEventListener('input', validStep1);
   anonChk.addEventListener('change', validStep1);
-  nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !toStep2.disabled) toStep2.click(); });
+  nameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !toStep2.disabled) toStep2.click();
+  });
+
   toStep2.addEventListener('click', () => {
     $('#consentText').textContent = state.anon
       ? 'Tôi đồng ý cho hiển thị lời nhắn của mình (ẩn danh) trên Cây Tri Ân sau khi được kiểm duyệt.'
       : 'Tôi đồng ý cho hiển thị lời nhắn và tên gọi của mình trên Cây Tri Ân sau khi được kiểm duyệt.';
-    setStep(2); validStep2();
+    setStep(2);
+    validStep2();
   });
 
-  // Bước 2: người nhận + lời nhắn + đồng ý
+  // Bước 2: Người nhận + Lời nhắn + Cam kết
   const chips = $('#recipChips');
   Object.keys(RECIPIENTS).forEach((k) => {
     const b = document.createElement('button');
-    b.type = 'button'; b.className = 'chip'; b.dataset.type = k; b.setAttribute('role', 'radio');
+    b.type = 'button';
+    b.className = 'chip';
+    b.dataset.type = k;
+    b.setAttribute('role', 'radio');
     b.textContent = RECIPIENTS[k].label;
-    b.addEventListener('click', () => { state.type = k; syncChips(); validStep2(); });
+    b.addEventListener('click', () => {
+      state.type = k;
+      syncChips();
+      validStep2();
+    });
     chips.appendChild(b);
   });
+
   function syncChips() {
-    chips.querySelectorAll('.chip').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.type === state.type)));
+    chips.querySelectorAll('.chip').forEach((b) => {
+      b.setAttribute('aria-checked', String(b.dataset.type === state.type));
+    });
     $('#recipNameWrap').hidden = !(state.type === 'thay_co' || state.type === 'nguoi_truyen_cam_hung');
   }
   syncChips();
+
   const msg = $('#msg'), consent = $('#consentChk'), submitBtn = $('#submitBtn');
   function validStep2() {
     $('#msgCount').textContent = msg.value.length + '/400';
@@ -278,14 +428,28 @@
   consent.addEventListener('change', validStep2);
   $('#backTo1').addEventListener('click', () => setStep(1));
 
-  function showError(t) { const e = $('#formError'); e.textContent = t; e.hidden = false; }
+  function showError(t) {
+    const e = $('#formError');
+    e.textContent = t;
+    e.hidden = false;
+  }
+
   submitBtn.addEventListener('click', async () => {
     $('#formError').hidden = true;
-    if ($('#website').value) { setStep(3); return; }               // bẫy bot: ô ẩn bị điền
+    if ($('#website').value) { setStep(3); return; } // Bẫy bot: ô ẩn bị điền
+    
     const last = Number(localStorage.getItem('ctt_last') || 0);
-    if (Date.now() - last < 20000) { showError('Bạn vừa gieo một lời cảm ơn xong. Chờ vài giây rồi gieo tiếp nhé.'); return; }
+    if (Date.now() - last < 20000) {
+      showError('Bạn vừa gieo một lời cảm ơn xong. Chờ vài giây rồi gieo tiếp nhé.');
+      return;
+    }
+
     const text = msg.value.trim();
-    if (text.length < 5) { showError('Lời nhắn cần ít nhất 5 ký tự.'); return; }
+    if (text.length < 5) {
+      showError('Lời nhắn cần ít nhất 5 ký tự.');
+      return;
+    }
+
     const payload = {
       sender_name: state.anon ? null : state.name.slice(0, 30),
       is_anonymous: state.anon,
@@ -294,81 +458,228 @@
       message: text.slice(0, 400),
     };
     if ($('#recipNameWrap').hidden) payload.recipient_name = null;
-    submitBtn.disabled = true; submitBtn.textContent = 'Đang gieo...';
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang gieo mầm...';
+
     try {
       await submitMessage(payload);
       try { localStorage.setItem('ctt_last', String(Date.now())); } catch (e) { /* bỏ qua */ }
       $('#doneText').textContent = DEMO
-        ? 'Chế độ demo: chiếc lá của bạn xuất hiện ngay. Khi chạy thật, lá sẽ hiện sau khi được duyệt.'
-        : 'Sau khi được duyệt, chiếc lá sẽ xuất hiện trên cây tri ân chung.';
-      msg.value = ''; consent.checked = false; $('#recipName').value = '';
+        ? 'Chế độ demo: Chiếc lá của bạn xuất hiện ngay trên cây. Khi chạy thật, lá sẽ hiện sau khi được Ban tổ chức phê duyệt.'
+        : 'Sau khi được Ban tổ chức phê duyệt, chiếc lá tri ân của bạn sẽ xuất hiện lung linh trên cây tri ân chung.';
+      msg.value = '';
+      consent.checked = false;
+      $('#recipName').value = '';
       setStep(3);
       if (DEMO) poll();
     } catch (err) {
       showError('Chưa gửi được lời nhắn. Kiểm tra kết nối mạng rồi thử lại nhé.');
     } finally {
-      submitBtn.textContent = 'Gieo lời cảm ơn'; validStep2();
+      submitBtn.textContent = '🌱 Gieo lời cảm ơn';
+      validStep2();
     }
   });
+
   $('#againBtn').addEventListener('click', () => { setStep(2); validStep2(); });
   $('#viewTree').addEventListener('click', closeForm);
 
-  /* ---------- Cập nhật định kỳ ---------- */
-  let firstLoad = true, timer = null;
-  const ticker = { list: [], i: 0, t: null };
+  /* ---------- Cập nhật định kỳ (Polling) ---------- */
+  let firstLoad = true, pollTimer = null;
+  const allApproved = { list: [], index: 0 };
+
   async function poll() {
     try {
       const list = await fetchApproved();
       const added = renderTree(list, !firstLoad);
-      if (SCREEN) {
-        ticker.list = list.slice();
-        if (added.length) { ticker.i = list.indexOf(added[added.length - 1]); tick(true); }
-        else if (firstLoad) tick(true);
+      allApproved.list = list.slice();
+      
+      if (added.length && momentTheaterOpen) {
+        allApproved.index = list.indexOf(added[added.length - 1]);
+        renderMomentSlide();
       }
+      
       firstLoad = false;
     } catch (e) {
-      if (firstLoad) { $('#emptyHint').textContent = 'Chưa tải được cây. Kiểm tra kết nối mạng và tải lại trang.'; $('#emptyHint').hidden = false; }
+      if (firstLoad) {
+        const hint = $('#emptyHint');
+        if (hint) {
+          hint.textContent = 'Chưa tải được cây. Kiểm tra kết nối mạng và tải lại trang.';
+          hint.hidden = false;
+        }
+      }
     }
   }
+
   function schedule() {
-    clearInterval(timer);
-    timer = setInterval(() => { if (!document.hidden) poll(); }, POLL_MS);
+    clearInterval(pollTimer);
+    pollTimer = setInterval(() => { if (!document.hidden) poll(); }, POLL_MS);
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
 
-  /* ---------- Chế độ màn hình lớn: ?screen=1 ---------- */
-  function tick(now) {
-    if (!ticker.list.length) return;
-    if (!now) ticker.i = (ticker.i + 1) % ticker.list.length;
-    const m = ticker.list[ticker.i % ticker.list.length];
-    $('#tkWho').textContent = who(m) + ' gửi đến ' + toLabel(m);
-    $('#tkTxt').textContent = '“' + m.message + '”';
+  /* ==========================================================================
+     CHẾ ĐỘ "KHOẢNH KHẮC CÂY TRI ÂN" (THEATER GALA MÀN HÌNH LỚN)
+     ========================================================================== */
+  let momentTheaterOpen = false;
+  let momentAutoTimer = null;
+  let momentPlaying = true;
+  const theaterOverlay = $('#momentTheater');
+
+  function renderMomentSlide() {
+    if (!allApproved.list.length) return;
+    const m = allApproved.list[allApproved.index % allApproved.list.length];
+    
+    const txtEl = $('#thTxt'), whoEl = $('#thWho'), toEl = $('#thTo'), timeEl = $('#thTime'), progEl = $('#thProgress');
+    if (txtEl) txtEl.textContent = '“' + m.message + '”';
+    if (whoEl) whoEl.textContent = who(m);
+    if (toEl) toEl.textContent = 'Gửi đến: ' + toLabel(m);
+    if (progEl) progEl.textContent = (allApproved.index + 1) + ' / ' + allApproved.list.length;
+    
+    if (timeEl && m.created_at) {
+      try {
+        const d = new Date(m.created_at);
+        timeEl.textContent = d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' · ' + d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      } catch (e) { timeEl.textContent = ''; }
+    }
+
+    // Làm nổi bật chiếc lá tương ứng trên cây
     nodes.forEach((g) => g.classList.remove('glow'));
-    const g = nodes.get(m.id); if (g) g.classList.add('glow');
+    const g = nodes.get(m.id);
+    if (g) {
+      g.classList.add('glow');
+    }
   }
-  function initScreen() {
-    document.body.classList.add('screen');
-    $('#ticker').hidden = false;
-    $('#qrBox').hidden = false;
-    const url = location.origin + location.pathname;
-    $('#qrUrl').textContent = url.replace(/^https?:\/\//, '');
-    try {
-      const cv = document.createElement('canvas');
-      window.CTTQR.draw(cv, url, 170);
-      $('#qr').appendChild(cv);
-    } catch (e) { $('#qr').hidden = true; }
-    ticker.t = setInterval(() => tick(false), 7000);
+
+  function nextMomentSlide() {
+    if (!allApproved.list.length) return;
+    allApproved.index = (allApproved.index + 1) % allApproved.list.length;
+    renderMomentSlide();
   }
+
+  function prevMomentSlide() {
+    if (!allApproved.list.length) return;
+    allApproved.index = (allApproved.index - 1 + allApproved.list.length) % allApproved.list.length;
+    renderMomentSlide();
+  }
+
+  function toggleMomentPlay() {
+    momentPlaying = !momentPlaying;
+    const btn = $('#momentPlayBtn');
+    if (btn) btn.textContent = momentPlaying ? '⏸ Tạm dừng' : '▶ Tiếp tục';
+    
+    clearInterval(momentAutoTimer);
+    if (momentPlaying) {
+      momentAutoTimer = setInterval(nextMomentSlide, 7000);
+    }
+  }
+
+  function openMomentTheater() {
+    momentTheaterOpen = true;
+    theaterOverlay.hidden = false;
+    document.body.classList.add('moment-active');
+
+    // Chuyển cây SVG vào khung sân khấu trung tâm
+    const slot = $('#theaterTreeSlot');
+    if (slot && !slot.hasChildNodes()) {
+      slot.appendChild(svg);
+    }
+
+    // Vẽ mã QR Offline góc màn hình nếu chưa có
+    const qrCanvasWrap = $('#theaterQrCanvas');
+    if (qrCanvasWrap && !qrCanvasWrap.hasChildNodes()) {
+      try {
+        const url = location.origin + location.pathname;
+        const cv = document.createElement('canvas');
+        window.CTTQR.draw(cv, url, 120);
+        qrCanvasWrap.appendChild(cv);
+      } catch (e) { /* Bỏ qua nếu lỗi canvas */ }
+    }
+
+    renderMomentSlide();
+    clearInterval(momentAutoTimer);
+    momentPlaying = true;
+    const btn = $('#momentPlayBtn');
+    if (btn) btn.textContent = '⏸ Tạm dừng';
+    momentAutoTimer = setInterval(nextMomentSlide, 7000);
+  }
+
+  function closeMomentTheater() {
+    if (!momentTheaterOpen) return;
+    momentTheaterOpen = false;
+    theaterOverlay.hidden = true;
+    document.body.classList.remove('moment-active');
+    clearInterval(momentAutoTimer);
+
+    // Trả cây SVG về lại vị trí trên Báo tường
+    const stage = $('.stage');
+    if (stage && svg.parentElement !== stage) {
+      stage.insertBefore(svg, $('#emptyHint'));
+    }
+  }
+
+  // Lắng nghe sự kiện Khoảnh Khắc Cây Tri Ân
+  const triggerBtn = $('#momentTriggerBtn');
+  if (triggerBtn) triggerBtn.addEventListener('click', openMomentTheater);
+
+  const prevBtn = $('#momentPrevBtn');
+  if (prevBtn) prevBtn.addEventListener('click', prevMomentSlide);
+
+  const nextBtn = $('#momentNextBtn');
+  if (nextBtn) nextBtn.addEventListener('click', nextMomentSlide);
+
+  const playBtn = $('#momentPlayBtn');
+  if (playBtn) playBtn.addEventListener('click', toggleMomentPlay);
+
+  const exitBtn = $('#momentExitBtn');
+  if (exitBtn) exitBtn.addEventListener('click', closeMomentTheater);
+
+  // Điều khiển bằng phím mũi tên trên bàn phím máy tính
+  document.addEventListener('keydown', (e) => {
+    if (!momentTheaterOpen) return;
+    if (e.key === 'ArrowRight') nextMomentSlide();
+    if (e.key === 'ArrowLeft') prevMomentSlide();
+    if (e.key === ' ') {
+      e.preventDefault();
+      toggleMomentPlay();
+    }
+  });
 
   /* ---------- Khởi động ---------- */
   const legend = $('#legend');
-  Object.keys(RECIPIENTS).forEach((k) => {
-    const li = document.createElement('li');
-    const i = document.createElement('i'); i.style.background = RECIPIENTS[k].dot;
-    li.appendChild(i); li.appendChild(document.createTextNode(RECIPIENTS[k].label));
-    legend.appendChild(li);
-  });
-  if (DEMO) $('#demoBanner').hidden = false;
-  if (SCREEN) initScreen();
-  poll(); schedule();
+  if (legend) {
+    Object.keys(RECIPIENTS).forEach((k) => {
+      const li = document.createElement('li');
+      const i = document.createElement('i');
+      i.style.background = RECIPIENTS[k].dot;
+      li.appendChild(i);
+      li.appendChild(document.createTextNode(RECIPIENTS[k].label));
+      legend.appendChild(li);
+    });
+  }
+
+  if (DEMO) {
+    const banner = $('#demoBanner');
+    if (banner) banner.hidden = false;
+  }
+
+  // Khởi tạo mã QR ở Header nếu có
+  try {
+    const qrEl = $('#qr');
+    const url = location.origin + location.pathname;
+    const qrUrl = $('#qrUrl');
+    if (qrUrl) qrUrl.textContent = url.replace(/^https?:\/\//, '');
+    if (qrEl) {
+      const cv = document.createElement('canvas');
+      window.CTTQR.draw(cv, url, 150);
+      qrEl.appendChild(cv);
+    }
+  } catch (e) { /* Bỏ qua */ }
+
+  // Tự động mở chế độ Gala nếu URL có ?screen=1 hoặc ?moment=1
+  if (SCREEN) {
+    setTimeout(openMomentTheater, 300);
+  }
+
+  poll();
+  schedule();
 })();

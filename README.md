@@ -7,8 +7,8 @@ Website nơi mỗi lời cảm ơn gửi thầy cô trở thành một chiếc l
 - Bước 1: nhập **tên hiển thị** hoặc chọn **gửi ẩn danh**. Bước 2: chọn người nhận (Thầy cô / Mái trường / Một bài học / Người truyền cảm hứng), viết lời nhắn, tick đồng ý hiển thị. Bước 3: thông báo "Cảm ơn bạn đã gieo một mầm xanh!".
 - Lời nhắn có 3 trạng thái: `pending` (chờ duyệt) → `approved` (đã duyệt) / `rejected` (từ chối). **Chỉ lời đã duyệt mới hiện thành lá trên cây.**
 - Bạn tự duyệt bằng trang `admin.html` (hoặc bảng Table Editor của Supabase).
-- Cây tự cập nhật mỗi 8 giây, lá mới "nảy" ra có hiệu ứng. Chạm vào lá để đọc lời tri ân.
-- Chế độ màn hình lớn cho Gala: `index.html?screen=1` (có mã QR, lời tri ân mới nhất chạy bên dưới).
+- Cây tự cập nhật mỗi 8 giây, lá mới "nảy" ra có hiệu ứng nảy mầm và bung lá sinh động. Chạm vào lá để đọc lời tri ân dạng thiệp postcard.
+- Chế độ trình chiếu "Khoảnh Khắc Cây Tri Ân" cho Gala: bấm nút `✨ Khoảnh Khắc Cây Tri Ân` hoặc thêm `?moment=1` / `?screen=1` (có mã QR offline, điều khiển Tạm dừng/Tiếp tục/Trước/Sau, chiếc lá tương ứng phát sáng).
 
 ## Cấu trúc thư mục
 

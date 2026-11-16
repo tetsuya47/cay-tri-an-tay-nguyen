@@ -4,40 +4,251 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Kiểm duyệt – Cây Tri Ân</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet">
+<title>Kiểm duyệt – Cây Tri Ân Tây Nguyên</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--green:#2F7F57;--dark:#0A2723;--ink:#10302A;--muted:#5E7A72;--bg:#F1F6F2;--danger:#C0392B;--gold:#F5B82E}
-  *{box-sizing:border-box} body{margin:0;font-family:"Be Vietnam Pro",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-  [hidden]{display:none!important}
-  header{background:var(--dark);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:5}
-  header h1{font-size:17px;margin:0} header button{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:10px;padding:7px 12px;font:inherit;font-size:13px}
-  main{max-width:760px;margin:0 auto;padding:16px}
-  .login{max-width:380px;margin:40px auto;background:#fff;border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(10,39,35,.1)}
-  .login h2{margin:0 0 4px;color:var(--green)} .login p{margin:0 0 14px;color:var(--muted);font-size:14px}
-  input{width:100%;font:inherit;font-size:16px;padding:12px;border:2px solid #CFE0D5;border-radius:10px;margin-bottom:10px}
-  .btn{border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer}
-  .primary{background:var(--green);color:#fff;width:100%} .ok{background:var(--green);color:#fff} .no{background:#F8E1DE;color:var(--danger)} .back{background:#E4ECE6;color:var(--ink)}
-  .tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-  .tab{border:2px solid #CFE0D5;background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer;font-size:14px}
-  .tab[aria-selected=true]{background:var(--green);border-color:var(--green);color:#fff}
-  .badge{background:var(--gold);color:#2b1e00;border-radius:999px;padding:1px 8px;font-size:12px;margin-left:6px;font-weight:800}
-  .card{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 10px rgba(10,39,35,.06)}
-  .meta{font-size:13px;color:var(--muted);margin-bottom:6px} .meta b{color:var(--green)}
-  .txt{font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
-  .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-  .acts .btn{flex:1;min-width:110px}
-  .msg{color:var(--danger);font-weight:600;font-size:14px;margin:0 0 10px}
-  .empty{text-align:center;color:var(--muted);padding:40px 10px}
-  .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:var(--muted)}
+  :root {
+    --green: #2B6E4E;
+    --dark: #194833;
+    --ink: #241D17;
+    --muted: #6D5D4E;
+    --bg: #FAF5E8;
+    --card: #FFFDF7;
+    --danger: #C62828;
+    --gold: #FBC02D;
+    --border: #D6C8AF;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Be Vietnam Pro", system-ui, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image: linear-gradient(135deg, #F5EDD8 0%, #EFE5CC 100%);
+    min-height: 100vh;
+  }
+  [hidden] { display: none !important; }
+  header {
+    background: var(--dark);
+    color: #FFFDE7;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  header h1 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+  header button {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  header button:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+  .login {
+    max-width: 400px;
+    margin: 50px auto;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 22px;
+    box-shadow: 0 10px 35px rgba(62,39,35,0.1);
+  }
+  .login h2 {
+    margin: 0 0 6px;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 700;
+    color: var(--dark);
+    font-size: 26px;
+  }
+  .login p {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  input {
+    width: 100%;
+    font: inherit;
+    font-size: 15.5px;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    background: #FAF8F2;
+  }
+  input:focus {
+    outline: 0;
+    border-color: var(--green);
+    background: #fff;
+  }
+  .btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .primary {
+    background: var(--green);
+    color: #FFFDE7;
+    width: 100%;
+  }
+  .primary:hover {
+    background: var(--dark);
+  }
+  .ok {
+    background: var(--green);
+    color: #FFFDE7;
+  }
+  .ok:hover {
+    background: var(--dark);
+  }
+  .no {
+    background: #FFEBEE;
+    color: var(--danger);
+    border: 1px solid #FFCDD2;
+  }
+  .no:hover {
+    background: #FFCDD2;
+  }
+  .back {
+    background: #EFE8D8;
+    color: var(--ink);
+  }
+  .back:hover {
+    background: #E0D3BC;
+  }
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--muted);
+    transition: all 0.15s ease;
+  }
+  .tab[aria-selected="true"] {
+    background: var(--green);
+    border-color: var(--green);
+    color: #FFFDE7;
+    box-shadow: 0 3px 10px rgba(43,110,78,0.25);
+  }
+  .badge {
+    background: var(--gold);
+    color: #3E2723;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 12px;
+    margin-left: 6px;
+    font-weight: 800;
+  }
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 12px rgba(62,39,35,0.06);
+  }
+  .meta {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .meta b {
+    color: var(--green);
+    font-weight: 700;
+  }
+  .txt {
+    font-size: 16px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: var(--ink);
+    background: rgba(245, 237, 216, 0.4);
+    padding: 10px 14px;
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+  }
+  .acts {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .acts .btn {
+    flex: 1;
+    min-width: 110px;
+  }
+  .msg {
+    color: var(--danger);
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0 0 10px;
+  }
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 50px 10px;
+    font-size: 15px;
+    background: var(--card);
+    border-radius: 14px;
+    border: 1.5px dashed var(--border);
+  }
+  .bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
 </style>
 </head>
 <body>
-<header><h1>Kiểm duyệt Cây Tri Ân</h1><button id="logout" hidden>Đăng xuất</button></header>
+<header>
+  <h1>Kiểm duyệt Cây Tri Ân Tây Nguyên</h1>
+  <button id="logout" hidden>Đăng xuất</button>
+</header>
 <main>
   <section class="login" id="loginBox">
     <h2>Đăng nhập quản trị</h2>
-    <p>Dùng email và mật khẩu của tài khoản admin đã tạo trong Supabase.</p>
+    <p>Dùng email và mật khẩu tài khoản quản trị đã thiết lập trong Supabase.</p>
     <p class="msg" id="loginErr" hidden></p>
     <input id="email" type="email" placeholder="Email quản trị" autocomplete="username">
     <input id="pass" type="password" placeholder="Mật khẩu" autocomplete="current-password">
@@ -46,7 +257,10 @@
 
   <section id="panel" hidden>
     <div class="tabs" role="tablist" id="tabs"></div>
-    <div class="bar"><span id="updated">...</span><span id="statusLine"></span></div>
+    <div class="bar">
+      <span id="updated">...</span>
+      <span id="statusLine"></span>
+    </div>
     <div id="list"></div>
   </section>
 </main>
@@ -59,97 +273,167 @@
   const KEY = CFG.SUPABASE_KEY || '';
   const TABLE = 'gratitude_messages';
   const $ = (s) => document.querySelector(s);
-  const REC = { thay_co: 'Thầy cô', mai_truong: 'Mái trường', bai_hoc: 'Một bài học', nguoi_truyen_cam_hung: 'Người truyền cảm hứng' };
+  const REC = {
+    thay_co: 'Thầy cô',
+    mai_truong: 'Mái trường',
+    bai_hoc: 'Một bài học',
+    nguoi_truyen_cam_hung: 'Người truyền cảm hứng'
+  };
   const TABS = [['pending', 'Chờ duyệt'], ['approved', 'Đã duyệt'], ['rejected', 'Từ chối']];
   let token = sessionStorage.getItem('ctt_admin_token') || '';
   let tab = 'pending', timer = null, counts = {};
 
   if (!BASE || !KEY) {
-    $('#loginBox').innerHTML = '<h2>Chưa cấu hình</h2><p>Hãy điền SUPABASE_URL và SUPABASE_KEY vào config.js trước khi dùng trang quản trị.</p>';
+    $('#loginBox').innerHTML = '<h2>Chưa cấu hình Supabase</h2><p>Hãy điền SUPABASE_URL và SUPABASE_KEY vào config.js trước khi dùng trang quản trị.</p>';
     return;
   }
-  const hdr = (extra) => Object.assign({ apikey: KEY, 'Content-Type': 'application/json', Authorization: 'Bearer ' + (token || KEY) }, extra || {});
+  const hdr = (extra) => Object.assign({
+    apikey: KEY,
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + (token || KEY)
+  }, extra || {});
 
   async function login() {
     $('#loginErr').hidden = true;
-    const btn = $('#loginBtn'); btn.disabled = true; btn.textContent = 'Đang đăng nhập...';
+    const btn = $('#loginBtn');
+    btn.disabled = true;
+    btn.textContent = 'Đang đăng nhập...';
     try {
       const r = await fetch(BASE + '/auth/v1/token?grant_type=password', {
-        method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' },
+        method: 'POST',
+        headers: { apikey: KEY, 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: $('#email').value.trim(), password: $('#pass').value }),
       });
       const d = await r.json();
       if (!r.ok || !d.access_token) throw new Error(d.error_description || d.msg || 'Sai email hoặc mật khẩu');
-      token = d.access_token; sessionStorage.setItem('ctt_admin_token', token);
+      token = d.access_token;
+      sessionStorage.setItem('ctt_admin_token', token);
       start();
     } catch (e) {
-      $('#loginErr').textContent = 'Không đăng nhập được: ' + e.message; $('#loginErr').hidden = false;
-    } finally { btn.disabled = false; btn.textContent = 'Đăng nhập'; }
+      $('#loginErr').textContent = 'Không đăng nhập được: ' + e.message;
+      $('#loginErr').hidden = false;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Đăng nhập';
+    }
   }
+
   function logout() {
-    token = ''; sessionStorage.removeItem('ctt_admin_token'); clearInterval(timer);
-    $('#panel').hidden = true; $('#loginBox').hidden = false; $('#logout').hidden = true;
+    token = '';
+    sessionStorage.removeItem('ctt_admin_token');
+    clearInterval(timer);
+    $('#panel').hidden = true;
+    $('#loginBox').hidden = false;
+    $('#logout').hidden = true;
   }
+
   async function api(path, opt) {
     const r = await fetch(BASE + '/rest/v1/' + path, Object.assign({ headers: hdr(), cache: 'no-store' }, opt || {}));
-    if (r.status === 401 || r.status === 403) { logout(); throw new Error('Phiên đăng nhập đã hết hạn, hãy đăng nhập lại.'); }
+    if (r.status === 401 || r.status === 403) {
+      logout();
+      throw new Error('Phiên đăng nhập đã hết hạn, hãy đăng nhập lại.');
+    }
     if (!r.ok) throw new Error('HTTP ' + r.status);
     return r.status === 204 ? null : r.json();
   }
+
   async function load() {
     try {
       const rows = await api(TABLE + '?select=*&status=eq.' + tab + '&order=created_at.' + (tab === 'pending' ? 'asc' : 'desc') + '&limit=300');
       const all = await api(TABLE + '?select=status');
       counts = { pending: 0, approved: 0, rejected: 0 };
       all.forEach((x) => { counts[x.status] = (counts[x.status] || 0) + 1; });
-      renderTabs(); renderList(rows);
+      renderTabs();
+      renderList(rows);
       $('#updated').textContent = 'Cập nhật lúc ' + new Date().toLocaleTimeString('vi-VN');
       $('#statusLine').textContent = '';
-    } catch (e) { $('#statusLine').textContent = e.message; }
+    } catch (e) {
+      $('#statusLine').textContent = e.message;
+    }
   }
+
   function renderTabs() {
-    const box = $('#tabs'); box.textContent = '';
+    const box = $('#tabs');
+    box.textContent = '';
     TABS.forEach(([k, label]) => {
       const b = document.createElement('button');
-      b.className = 'tab'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', String(k === tab));
+      b.className = 'tab';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', String(k === tab));
       b.textContent = label;
-      const s = document.createElement('span'); s.className = 'badge'; s.textContent = counts[k] || 0; b.appendChild(s);
+      const s = document.createElement('span');
+      s.className = 'badge';
+      s.textContent = counts[k] || 0;
+      b.appendChild(s);
       b.addEventListener('click', () => { tab = k; load(); });
       box.appendChild(b);
     });
   }
+
   function renderList(rows) {
-    const box = $('#list'); box.textContent = '';
-    if (!rows.length) { const d = document.createElement('div'); d.className = 'empty'; d.textContent = 'Không có lời nhắn nào ở mục này.'; box.appendChild(d); return; }
+    const box = $('#list');
+    box.textContent = '';
+    if (!rows.length) {
+      const d = document.createElement('div');
+      d.className = 'empty';
+      d.textContent = 'Không có lời nhắn nào ở mục này.';
+      box.appendChild(d);
+      return;
+    }
     rows.forEach((m) => {
-      const c = document.createElement('div'); c.className = 'card';
-      const meta = document.createElement('div'); meta.className = 'meta';
-      const nm = document.createElement('b'); nm.textContent = m.is_anonymous ? 'Ẩn danh' : (m.sender_name || '(không tên)');
+      const c = document.createElement('div');
+      c.className = 'card';
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const nm = document.createElement('b');
+      nm.textContent = m.is_anonymous ? 'Ẩn danh' : (m.sender_name || '(không tên)');
       meta.appendChild(nm);
       meta.appendChild(document.createTextNode(' → ' + (REC[m.recipient_type] || m.recipient_type) + (m.recipient_name ? ' · ' + m.recipient_name : '') + ' · ' + new Date(m.created_at).toLocaleString('vi-VN')));
-      const t = document.createElement('div'); t.className = 'txt'; t.textContent = m.message;
-      const acts = document.createElement('div'); acts.className = 'acts';
+      const t = document.createElement('div');
+      t.className = 'txt';
+      t.textContent = m.message;
+      const acts = document.createElement('div');
+      acts.className = 'acts';
       const add = (label, cls, status) => {
-        const b = document.createElement('button'); b.className = 'btn ' + cls; b.textContent = label;
-        b.addEventListener('click', async () => { b.disabled = true; await setStatus(m.id, status); });
+        const b = document.createElement('button');
+        b.className = 'btn ' + cls;
+        b.textContent = label;
+        b.addEventListener('click', async () => {
+          b.disabled = true;
+          await setStatus(m.id, status);
+        });
         acts.appendChild(b);
       };
       if (tab !== 'approved') add('✓ Duyệt', 'ok', 'approved');
       if (tab !== 'rejected') add('✕ Từ chối', 'no', 'rejected');
       if (tab !== 'pending') add('↩ Về chờ duyệt', 'back', 'pending');
-      c.append(meta, t, acts); box.appendChild(c);
+      c.append(meta, t, acts);
+      box.appendChild(c);
     });
   }
+
   async function setStatus(id, status) {
     try {
-      await api(TABLE + '?id=eq.' + encodeURIComponent(id), { method: 'PATCH', headers: hdr({ Prefer: 'return=minimal' }), body: JSON.stringify({ status }) });
+      await api(TABLE + '?id=eq.' + encodeURIComponent(id), {
+        method: 'PATCH',
+        headers: hdr({ Prefer: 'return=minimal' }),
+        body: JSON.stringify({ status })
+      });
       load();
-    } catch (e) { $('#statusLine').textContent = e.message; }
+    } catch (e) {
+      $('#statusLine').textContent = e.message;
+    }
   }
+
   function start() {
-    $('#loginBox').hidden = true; $('#panel').hidden = false; $('#logout').hidden = false;
-    load(); clearInterval(timer); timer = setInterval(() => { if (!document.hidden) load(); }, 8000);
+    $('#loginBox').hidden = true;
+    $('#panel').hidden = false;
+    $('#logout').hidden = false;
+    load();
+    clearInterval(timer);
+    timer = setInterval(() => { if (!document.hidden) load(); }, 8000);
   }
+
   $('#loginBtn').addEventListener('click', login);
   $('#pass').addEventListener('keydown', (e) => { if (e.key === 'Enter') login(); });
   $('#logout').addEventListener('click', logout);
