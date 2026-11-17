@@ -1,0 +1,34 @@
+# Dependencies & build outputs
+node_modules/
+dist/
+out/
+.eslintcache
+*.tsbuildinfo
+
+# Backups and temporary files
+*.bak
+*.bak/
+apps/claude-gui.bak/
+tmp_*
+tmp_*/
+*.log
+*.log*
+logs/
+
+# IDE, telemetry, and test screenshots
+.vscode/
+.idea/
+.omx/
+smoke_screenshots/
+.superpowers/
+.playwright-mcp/
+
+# Environment and sensitive files
+.env
+.env.*
+!.env.example
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini

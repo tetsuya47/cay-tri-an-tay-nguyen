@@ -1,0 +1,14 @@
+{
+  "name": "cay-tri-an-tay-nguyen-platform",
+  "version": "1.0.0",
+  "description": "Nền tảng Tích hợp: Cây Tri Ân Tây Nguyên (Gratitude Space) & AI Academy Support (Lớp học AI đồng hành và sáng tạo)",
+  "scripts": {
+    "start": "node scripts/serve-gratitude.cjs",
+    "start:local": "node scripts/platform-start.cjs",
+    "start:gratitude": "node scripts/serve-gratitude.cjs",
+    "start:studio": "node scripts/launch-studio.cjs"
+  },
+  "dependencies": {
+    "ws": "^8.23.0"
+  }
+}

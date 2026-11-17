@@ -822,6 +822,16 @@
     setTimeout(openMomentTheater, 300);
   }
 
+  // Khởi tạo điều hướng AI Academy Support (Mở Tab Trình Duyệt Mới)
+  const studioBtn = $('#studioTriggerBtn');
+  if (studioBtn) {
+    studioBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const studioUrl = new URL('apps/claude-gui/', window.location.href).href;
+      window.open(studioUrl, '_blank');
+    });
+  }
+
   poll();
   schedule();
 })();

@@ -730,6 +730,33 @@ button {
   transform: scale(0.98);
 }
 
+.btn-studio-navigation {
+  background: linear-gradient(135deg, #133e29 0%, #0a2417 100%);
+  color: #fffdf8;
+  border: 1.5px solid rgba(251, 192, 45, 0.5);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 12px rgba(20, 61, 40, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-studio-navigation:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(251, 192, 45, 0.35);
+  border-color: var(--c-da-quy-gold);
+}
+
+.btn-studio-navigation:active {
+  transform: scale(0.98);
+}
+
 /* KHÔNG GIAN CÂY CỔ THỤ NGHỆ THUẬT VẼ TAY (MINH HỌA MÀU NƯỚC NGUYÊN BẢN) */
 .tree-stage-wrapper {
   background: transparent;
