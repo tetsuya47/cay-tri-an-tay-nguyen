@@ -494,8 +494,11 @@
       const added = renderTree(list, !firstLoad);
       allApproved.list = list.slice();
       
-      if (added.length && momentTheaterOpen) {
-        allApproved.index = list.indexOf(added[added.length - 1]);
+      if (momentTheaterOpen) {
+        if (added.length) {
+          allApproved.index = list.indexOf(added[added.length - 1]);
+        }
+        renderTheaterGallery();
         renderMomentSlide();
       }
       
@@ -518,17 +521,152 @@
   document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
 
   /* ==========================================================================
-     CHẾ ĐỘ "KHOẢNH KHẮC CÂY TRI ÂN" (THEATER GALA MÀN HÌNH LỚN)
+     CHẾ ĐỘ "KHOẢNH KHẮC CÂY TRI ÂN" (EXHIBITION GALA GALLERY)
+     Triển lãm nghệ thuật quy tụ tất cả lời tri ân đã duyệt
      ========================================================================== */
   let momentTheaterOpen = false;
   let momentAutoTimer = null;
   let momentPlaying = true;
   const theaterOverlay = $('#momentTheater');
 
+  /* Hiển thị toàn bộ thiệp nghệ thuật vào không gian triển lãm */
+  function renderTheaterGallery() {
+    const gallery = $('#theaterGallery');
+    if (!gallery) return;
+
+    if (!allApproved.list.length) {
+      gallery.innerHTML = `
+        <div class="theater-empty-state">
+          <div class="empty-icon">🌱</div>
+          <h3>Chưa có lời tri ân nào được duyệt</h3>
+          <p>Mỗi lời tri ân bạn gửi sẽ trở thành một mầm xanh trên cây và xuất hiện tại triển lãm này sau khi được ban biên tập duyệt.</p>
+        </div>
+      `;
+      const progEl = $('#thProgress');
+      if (progEl) progEl.textContent = '0 / 0';
+      return;
+    }
+
+    gallery.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+
+    allApproved.list.forEach((m, idx) => {
+      const card = document.createElement('article');
+      card.className = 'exhibition-card' + (idx === allApproved.index ? ' active' : '');
+      card.dataset.idx = idx;
+      card.dataset.id = m.id;
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `Xem lời tri ân từ ${who(m)}`);
+
+      // Header thẻ thiệp: Tag đối tượng + Con dấu 20-11
+      const header = document.createElement('div');
+      header.className = 'card-decor-header';
+
+      const tag = document.createElement('div');
+      tag.className = 'card-tag-pill ' + (m.recipient_type || 'thay_co');
+
+      const icon = document.createElement('span');
+      icon.className = 'card-tag-icon';
+      icon.textContent = m.recipient_type === 'nguoi_truyen_cam_hung' ? '🌼' : (m.recipient_type === 'ban_be' ? '🌱' : '🪷');
+
+      const label = document.createElement('span');
+      label.className = 'card-tag-text';
+      label.textContent = (RECIPIENTS[m.recipient_type] || RECIPIENTS.thay_co).label;
+
+      tag.appendChild(icon);
+      tag.appendChild(label);
+
+      const seal = document.createElement('span');
+      seal.className = 'card-seal-badge';
+      seal.textContent = '20 · 11';
+
+      header.appendChild(tag);
+      header.appendChild(seal);
+      card.appendChild(header);
+
+      // Nội dung lời nhắn trích dẫn
+      const quote = document.createElement('blockquote');
+      quote.className = 'card-message';
+      quote.textContent = '“' + m.message + '”';
+      card.appendChild(quote);
+
+      // Đường kẻ hoa văn phân cách
+      const flourish = document.createElement('div');
+      flourish.className = 'card-divider-flourish';
+      flourish.setAttribute('aria-hidden', 'true');
+      flourish.innerHTML = '<span class="fl-line"></span><span class="fl-heart">♡</span><span class="fl-line"></span>';
+      card.appendChild(flourish);
+
+      // Metadata người gửi, người nhận, thời gian
+      const meta = document.createElement('div');
+      meta.className = 'card-meta';
+
+      const people = document.createElement('div');
+      people.className = 'card-people';
+
+      const senderRow = document.createElement('div');
+      senderRow.className = 'person-row sender';
+      const senderRole = document.createElement('span');
+      senderRole.className = 'person-role';
+      senderRole.textContent = 'Người gửi: ';
+      const senderName = document.createElement('strong');
+      senderName.className = 'person-name';
+      senderName.textContent = who(m);
+      senderRow.appendChild(senderRole);
+      senderRow.appendChild(senderName);
+
+      const recipientRow = document.createElement('div');
+      recipientRow.className = 'person-row recipient';
+      const recipRole = document.createElement('span');
+      recipRole.className = 'person-role';
+      recipRole.textContent = 'Gửi đến: ';
+      const recipName = document.createElement('span');
+      recipName.className = 'recipient-name';
+      recipName.textContent = m.recipient_name || (RECIPIENTS[m.recipient_type] || RECIPIENTS.thay_co).label;
+      recipientRow.appendChild(recipRole);
+      recipientRow.appendChild(recipName);
+
+      people.appendChild(senderRow);
+      people.appendChild(recipientRow);
+      meta.appendChild(people);
+
+      if (m.created_at) {
+        try {
+          const d = new Date(m.created_at);
+          const time = document.createElement('time');
+          time.className = 'card-timestamp';
+          time.textContent = d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' · ' + d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          meta.appendChild(time);
+        } catch (e) {}
+      }
+
+      card.appendChild(meta);
+
+      // Tương tác khi click hoặc phím chọn thẻ
+      card.addEventListener('click', () => {
+        allApproved.index = idx;
+        renderMomentSlide();
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          allApproved.index = idx;
+          renderMomentSlide();
+        }
+      });
+
+      fragment.appendChild(card);
+    });
+
+    gallery.appendChild(fragment);
+  }
+
   function renderMomentSlide() {
     if (!allApproved.list.length) return;
     const m = allApproved.list[allApproved.index % allApproved.list.length];
     
+    // Cập nhật các elements tương thích ngược và bộ đếm
     const txtEl = $('#thTxt'), whoEl = $('#thWho'), toEl = $('#thTo'), timeEl = $('#thTime'), progEl = $('#thProgress');
     if (txtEl) txtEl.textContent = '“' + m.message + '”';
     if (whoEl) whoEl.textContent = who(m);
@@ -540,6 +678,18 @@
         const d = new Date(m.created_at);
         timeEl.textContent = d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' · ' + d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
       } catch (e) { timeEl.textContent = ''; }
+    }
+
+    // Cập nhật trạng thái active cho card trong triển lãm và cuộn tới vị trí đó
+    const gallery = $('#theaterGallery');
+    if (gallery) {
+      const cards = gallery.querySelectorAll('.exhibition-card');
+      cards.forEach((c) => c.classList.remove('active'));
+      const activeCard = gallery.querySelector(`.exhibition-card[data-idx="${allApproved.index}"]`);
+      if (activeCard) {
+        activeCard.classList.add('active');
+        activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     // Làm nổi bật chiếc lá tương ứng trên cây
@@ -578,19 +728,16 @@
     theaterOverlay.hidden = false;
     document.body.classList.add('moment-active');
 
-    // Chuyển cây SVG vào khung sân khấu trung tâm
-    const slot = $('#theaterTreeSlot');
-    if (slot && !slot.hasChildNodes()) {
-      slot.appendChild(svg);
-    }
+    // Nạp triển lãm toàn bộ thiệp
+    renderTheaterGallery();
 
     // Vẽ mã QR Offline góc màn hình nếu chưa có
     const qrCanvasWrap = $('#theaterQrCanvas');
     if (qrCanvasWrap && !qrCanvasWrap.hasChildNodes()) {
       try {
-        const url = location.origin + location.pathname;
+        const url = 'https://tetsuya47.github.io/cay-tri-an-tay-nguyen/';
         const cv = document.createElement('canvas');
-        window.CTTQR.draw(cv, url, 120);
+        window.CTTQR.draw(cv, url, 120, '#000000');
         qrCanvasWrap.appendChild(cv);
       } catch (e) { /* Bỏ qua nếu lỗi canvas */ }
     }
@@ -609,12 +756,7 @@
     theaterOverlay.hidden = true;
     document.body.classList.remove('moment-active');
     clearInterval(momentAutoTimer);
-
-    // Trả cây SVG về lại vị trí trên Báo tường
-    const stage = $('.stage');
-    if (stage && svg.parentElement !== stage) {
-      stage.insertBefore(svg, $('#emptyHint'));
-    }
+    nodes.forEach((g) => g.classList.remove('glow'));
   }
 
   // Lắng nghe sự kiện Khoảnh Khắc Cây Tri Ân
@@ -665,12 +807,12 @@
   // Khởi tạo mã QR ở Header nếu có
   try {
     const qrEl = $('#qr');
-    const url = location.origin + location.pathname;
+    const url = 'https://tetsuya47.github.io/cay-tri-an-tay-nguyen/';
     const qrUrl = $('#qrUrl');
     if (qrUrl) qrUrl.textContent = url.replace(/^https?:\/\//, '');
-    if (qrEl) {
+    if (qrEl && !qrEl.hasChildNodes()) {
       const cv = document.createElement('canvas');
-      window.CTTQR.draw(cv, url, 150);
+      window.CTTQR.draw(cv, url, 120, '#000000');
       qrEl.appendChild(cv);
     }
   } catch (e) { /* Bỏ qua */ }

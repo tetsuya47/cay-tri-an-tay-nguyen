@@ -79,17 +79,22 @@
           </div>
         </div>
 
-        <!-- Góc phải: Tranh màu nước mái trường Đại học Tây Nguyên giữa đồi núi -->
-        <div class="masthead-campus-vignette" aria-label="Mái trường Đại học Tây Nguyên">
-          <img src="assets/campus.png" alt="Tranh màu nước mái trường Đại học Tây Nguyên giữa đồi núi thông reo"
-            class="campus-watercolor-img" width="150" height="70" loading="eager">
-        </div>
+        <!-- Góc phải: Tranh màu nước mái trường Đại học Tây Nguyên & Nút QR nhỏ mở qr.html -->
+        <div class="masthead-right-group">
+          <div class="masthead-campus-vignette" aria-label="Mái trường Đại học Tây Nguyên">
+            <img src="assets/campus.png" alt="Tranh màu nước mái trường Đại học Tây Nguyên giữa đồi núi thông reo"
+              class="campus-watercolor-img" width="140" height="66" loading="eager">
+          </div>
 
-        <!-- Hộp QR offline nhỏ gọn (khi dùng máy chiếu) -->
-        <div class="masthead-qr" id="qrBox" hidden>
-          <div id="qr"></div>
-          <span class="qr-label">Quét để gieo lời cảm ơn</span>
-          <small id="qrUrl"></small>
+          <!-- Hộp QR offline nhỏ gọn (nhấn để mở trang qr.html phục vụ thuyết trình) -->
+          <a href="qr.html" class="masthead-qr" id="qrBox"
+            title="Nhấn để mở mã QR kích thước lớn toàn màn hình phục vụ thuyết trình"
+            aria-label="Mã QR gửi lời tri ân - Nhấn để mở toàn màn hình">
+            <div id="qr"></div>
+            <span class="qr-label">Quét gửi tri ân</span>
+            <small id="qrUrl"></small>
+            <span class="qr-click-badge" aria-hidden="true">⛶ Mở lớn</span>
+          </a>
         </div>
       </div>
     </header>
@@ -112,7 +117,7 @@
             <p>
               Tháng Mười Một về, gió cao nguyên se lạnh, mang theo bao cảm xúc tri ân. Đây là dịp để chúng em gửi lời
               biết ơn sâu sắc tới thầy cô – những người đã âm thầm gieo mầm tri thức, chắp cánh ước mơ cho bao thế hệ
-              sinh viên Tây Nguyên.
+              sinh viên FPT Polytechnic.
             </p>
             <div class="hand-drawn-heart" aria-hidden="true">♡</div>
           </div>
@@ -446,59 +451,70 @@
   </div>
 
   <!-- ======================================================================
-     CHẾ ĐỘ "KHOẢNH KHẮC CÂY TRI ÂN" (EXHIBITION GALA THEATER MODE)
-     ====================================================================== -->
+       CHẾ ĐỘ "KHOẢNH KHẮC CÂY TRI ÂN" (EXHIBITION GALA GALLERY)
+       Triển lãm nghệ thuật quy tụ tất cả lời tri ân đã duyệt
+       ====================================================================== -->
   <div class="moment-theater" id="momentTheater" hidden>
     <div class="theater-backdrop"></div>
+
+    <!-- Hiệu ứng lá và hạt bụi vàng lơ lửng ở nền triển lãm -->
+    <div class="theater-ambient-leaves" aria-hidden="true">
+      <span class="amb-leaf l1">🍃</span>
+      <span class="amb-leaf l2">🍂</span>
+      <span class="amb-leaf l3">🌿</span>
+      <span class="amb-leaf l4">🍃</span>
+      <span class="amb-leaf l5">✨</span>
+      <span class="amb-leaf l6">🌼</span>
+    </div>
 
     <!-- Thanh điều khiển đỉnh màn hình triển lãm -->
     <header class="theater-topbar">
       <div class="theater-brand">
-        <span class="theater-badge">TRIỂN LÃM 20/11</span>
-        <h2>Khoảnh Khắc Cây Tri Ân Tây Nguyên</h2>
+        <div class="theater-brand-row">
+          <span class="theater-badge">TRIỂN LÃM 20/11</span>
+          <h2 class="theater-main-title">Khoảnh Khắc Cây Tri Ân Tây Nguyên</h2>
+        </div>
+        <p class="theater-subtitle">Mỗi lời cảm ơn là một chiếc lá, mỗi chiếc lá là một kỷ niệm</p>
       </div>
 
       <div class="theater-nav-controls">
+        <div class="theater-counter-chip" id="thProgress">1 / 1</div>
         <button class="t-btn" id="momentPrevBtn" type="button" title="Lời nhắn trước (Phím mũi tên Trái)">◀
           Trước</button>
         <button class="t-btn primary" id="momentPlayBtn" type="button" title="Tạm dừng / Tiếp tục trình chiếu">⏸ Tạm
           dừng</button>
         <button class="t-btn" id="momentNextBtn" type="button" title="Lời nhắn sau (Phím mũi tên Phải)">Sau ▶</button>
-        <button class="t-btn close-theater" id="momentExitBtn" type="button" title="Thoát trình chiếu (Phím Esc)">✖
+        <button class="t-btn close-theater" id="momentExitBtn" type="button" title="Thoát triển lãm (Phím Esc)">✖
           Đóng</button>
       </div>
     </header>
 
-    <!-- Sân khấu triển lãm trung tâm (Tỷ lệ 16:9 tối ưu cho máy chiếu) -->
-    <div class="theater-stage">
-      <!-- Cây đại thụ tỏa sáng rực rỡ ở vị trí trung tâm -->
-      <div class="theater-tree-view" id="theaterTreeSlot">
-        <!-- Cây SVG được mount vào đây -->
+    <!-- Khu vực chính: Triển lãm tất cả thiệp nghệ thuật dạng Grid cuộn mượt mà -->
+    <main class="theater-main-content">
+      <div class="theater-gallery-grid" id="theaterGallery">
+        <!-- Các tấm thiệp nghệ thuật được render động từ danh sách approved -->
       </div>
+    </main>
 
-      <!-- Tấm thẻ tri ân trang trọng hiển thị lời chúc lớn -->
-      <div class="theater-quote-card" id="theaterCard">
-        <div class="quote-ornament">“</div>
-        <p class="theater-text" id="thTxt">Đang nạp lời tri ân...</p>
-        <div class="theater-meta">
-          <div class="meta-row">
-            <span class="sender-label" id="thWho">Người gửi</span>
-            <span class="recipient-badge" id="thTo">Người nhận</span>
-          </div>
-          <div class="theater-time" id="thTime"></div>
+    <!-- Cụm QR để khán giả tại khán phòng quét gửi ngay (nhấn để mở qr.html) -->
+    <footer class="theater-bottom-bar">
+      <a href="qr.html" class="theater-qr-dock" title="Nhấn để mở mã QR kích thước lớn toàn màn hình"
+        aria-label="Mã QR gửi lời tri ân - Nhấn để mở toàn màn hình">
+        <div class="theater-qr-canvas" id="theaterQrCanvas"></div>
+        <div class="theater-qr-label">
+          <b>Quét để gieo lời cảm ơn</b>
+          <span>Lời nhắn được duyệt sẽ xuất hiện trực tiếp lên cây · Nhấn để phóng to ⛶</span>
         </div>
-        <div class="progress-indicator" id="thProgress">1 / 1</div>
+      </a>
+      <!-- Elements lưu trữ hỗ trợ kiểm tra và tương thích ngược -->
+      <div id="theaterTreeSlot" style="display:none;" aria-hidden="true"></div>
+      <div id="theaterActiveMeta" style="display:none;" aria-hidden="true">
+        <span id="thTxt"></span>
+        <span id="thWho"></span>
+        <span id="thTo"></span>
+        <span id="thTime"></span>
       </div>
-    </div>
-
-    <!-- Cụm QR để khán giả tại khán phòng quét gửi ngay -->
-    <div class="theater-qr-dock">
-      <div class="theater-qr-canvas" id="theaterQrCanvas"></div>
-      <div class="theater-qr-label">
-        <b>Quét để gieo lời cảm ơn</b>
-        <span>Lời nhắn được duyệt sẽ xuất hiện trực tiếp lên cây</span>
-      </div>
-    </div>
+    </footer>
   </div>
 
   <script src="config.js"></script>

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cây Tri Ân Tây Nguyên – Cùng Gieo Một Lời Tri Ân (Mã QR Thuyết Trình)</title>
+  <meta name="description" content="Quét mã QR để gửi lời cảm ơn đến thầy cô trên Cây Tri Ân Tây Nguyên – Báo Tường Tri Ân 20/11.">
+  <meta name="theme-color" content="#1C4D38">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@600&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="qr-page.css">
+</head>
+
+<body class="qr-body">
+  <!-- Cánh lá bay bổng nền xanh đại ngàn -->
+  <div class="qr-ambient-backdrop" aria-hidden="true">
+    <div class="ambient-leaf l1">🍃</div>
+    <div class="ambient-leaf l2">🍂</div>
+    <div class="ambient-leaf l3">🌿</div>
+    <div class="ambient-leaf l4">🍃</div>
+    <div class="ambient-leaf l5">🌱</div>
+    <div class="ambient-leaf l6">🍃</div>
+  </div>
+
+  <main class="qr-page-container">
+    <!-- Thẻ giấy thủ công nghệ thuật chiếu QR -->
+    <article class="qr-card">
+      <!-- Đầu thẻ: Huy hiệu Đoàn & Dòng định danh tổ chức -->
+      <header class="qr-card-header">
+        <div class="qr-org-brand">
+          <img src="logo-doan.png" alt="Huy hiệu Đoàn TNCS Hồ Chí Minh" class="qr-doan-badge" width="48" height="53">
+          <div class="qr-org-names">
+            <span class="qr-org-row1">ĐOÀN TNCS HỒ CHÍ MINH</span>
+            <span class="qr-org-row2">TRƯỜNG ĐẠI HỌC TÂY NGUYÊN</span>
+          </div>
+        </div>
+
+        <div class="qr-event-badge">
+          <span class="qr-badge-num">20 · 11</span>
+          <span class="qr-badge-sub">Tri Ân Thầy Cô</span>
+        </div>
+      </header>
+
+      <!-- Khối tiêu đề chính: CÙNG GIEO MỘT LỜI TRI ÂN -->
+      <section class="qr-title-block">
+        <div class="qr-lotus-row" aria-hidden="true">
+          <img src="assets/lotus_header.png" alt="" class="qr-lotus-accent left" width="36" height="32">
+          <span class="qr-kicker">Báo Tường Điện Tử 20/11</span>
+          <img src="assets/lotus_header.png" alt="" class="qr-lotus-accent right" width="36" height="32">
+        </div>
+
+        <h1 class="qr-main-title">CÙNG GIEO MỘT LỜI TRI ÂN</h1>
+        <p class="qr-subtitle">Quét mã QR để gửi lời cảm ơn đến thầy cô</p>
+      </section>
+
+      <!-- Khung Mã QR kích thước lớn (nền trắng, mã đen, tối thiểu 400x400px trên desktop) -->
+      <section class="qr-stage" aria-label="Khu vực quét mã QR">
+        <div class="qr-canvas-wrapper" id="qrCanvasWrapper">
+          <canvas id="qrCanvas" aria-label="Mã QR liên kết đến website Cây Tri Ân Tây Nguyên"></canvas>
+          <div class="qr-center-watermark" aria-hidden="true">
+            <span class="qr-watermark-icon">🌱</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dòng địa chỉ web rõ ràng & nút sao chép link -->
+      <div class="qr-url-row">
+        <span class="qr-url-icon" aria-hidden="true">🔗</span>
+        <code class="qr-url-text" id="qrUrlDisplay">https://tetsuya47.github.io/cay-tri-an-tay-nguyen/</code>
+        <button type="button" class="qr-copy-btn" id="copyUrlBtn" title="Sao chép địa chỉ liên kết">
+          📋 <span id="copyBtnText">Sao chép</span>
+        </button>
+      </div>
+
+      <!-- Thanh công cụ điều khiển thuyết trình -->
+      <footer class="qr-card-footer">
+        <div class="qr-action-buttons">
+          <a href="index.html" class="qr-btn qr-btn-back" id="backBtn" title="Quay lại Báo Tường Cây Tri Ân">
+            <span class="btn-icon">←</span> Quay lại trang chính
+          </a>
+
+          <button type="button" class="qr-btn qr-btn-fullscreen" id="fullscreenBtn"
+            title="Bật/Tắt chế độ toàn màn hình cho máy chiếu">
+            <span class="btn-icon" id="fullscreenIcon">⛶</span>
+            <span id="fullscreenText">Phóng to toàn màn hình</span>
+          </button>
+        </div>
+
+        <p class="qr-keyboard-hint">
+          Mẹo trình chiếu: Nhấn <b>F11</b> hoặc nút trên để phóng to · Nhấn <b>ESC</b> để thoát toàn màn hình
+        </p>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Nạp thư viện QR Encoder Offline (tuyệt đối không cần CDN) -->
+  <script src="qr.js"></script>
+  <script>
+    (() => {
+      'use strict';
+
+      const TARGET_URL = 'https://tetsuya47.github.io/cay-tri-an-tay-nguyen/';
+      const canvas = document.getElementById('qrCanvas');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      const fullscreenText = document.getElementById('fullscreenText');
+      const fullscreenIcon = document.getElementById('fullscreenIcon');
+      const copyUrlBtn = document.getElementById('copyUrlBtn');
+      const copyBtnText = document.getElementById('copyBtnText');
+
+      // Tính toán kích thước QR tối ưu theo khung nhìn (đảm bảo >= 400px trên desktop)
+      function getOptimalQrSize() {
+        const isFullscreen = !!document.fullscreenElement;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        if (isFullscreen) {
+          // Khi toàn màn hình trên máy chiếu / màn hình lớn
+          return Math.min(480, Math.floor(h * 0.52));
+        }
+
+        if (w >= 1024) {
+          // Desktop & Laptop: Luôn đảm bảo tối thiểu 400px (420px tiêu chuẩn)
+          return 420;
+        } else if (w >= 768) {
+          // Tablet
+          return 360;
+        } else if (w >= 480) {
+          // Mobile lớn
+          return 320;
+        } else {
+          // Mobile nhỏ
+          return Math.max(260, Math.min(300, w - 80));
+        }
+      }
+
+      // Vẽ mã QR với nền trắng, mã đen tinh khiết (#000000)
+      function renderQr() {
+        if (!window.CTTQR || !canvas) return;
+        const size = getOptimalQrSize();
+        try {
+          // Tham số thứ 4 là màu đen (#000000)
+          window.CTTQR.draw(canvas, TARGET_URL, size, '#000000');
+        } catch (err) {
+          console.error('Lỗi khi vẽ mã QR:', err);
+        }
+      }
+
+      // Khởi tạo ban đầu
+      renderQr();
+
+      // Cập nhật khi đổi kích thước màn hình
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderQr, 150);
+      });
+
+      // Xử lý nút toàn màn hình
+      if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', async () => {
+          try {
+            if (!document.fullscreenElement) {
+              await document.documentElement.requestFullscreen();
+            } else {
+              await document.exitFullscreen();
+            }
+          } catch (e) {
+            console.warn('Không thể chuyển đổi toàn màn hình:', e);
+          }
+        });
+      }
+
+      // Đồng bộ trạng thái giao diện khi thay đổi fullscreen (bao gồm cả khi bấm ESC)
+      document.addEventListener('fullscreenchange', () => {
+        const isFs = !!document.fullscreenElement;
+        if (fullscreenText) {
+          fullscreenText.textContent = isFs ? 'Thu nhỏ cửa sổ' : 'Phóng to toàn màn hình';
+        }
+        if (fullscreenIcon) {
+          fullscreenIcon.textContent = isFs ? '⛷' : '⛶';
+        }
+        document.body.classList.toggle('in-fullscreen', isFs);
+        renderQr();
+      });
+
+      // Hỗ trợ phím tắt bàn phím
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !document.fullscreenElement) {
+          // Nếu bấm ESC khi không ở chế độ fullscreen, quay lại trang chủ
+          window.location.href = 'index.html';
+        }
+      });
+
+      // Sao chép liên kết vào Clipboard
+      if (copyUrlBtn) {
+        copyUrlBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(TARGET_URL);
+            copyBtnText.textContent = 'Đã chép!';
+            copyUrlBtn.classList.add('copied');
+            setTimeout(() => {
+              copyBtnText.textContent = 'Sao chép';
+              copyUrlBtn.classList.remove('copied');
+            }, 2000);
+          } catch (e) {
+            // Fallback khi không có quyền clipboard
+            const ta = document.createElement('textarea');
+            ta.value = TARGET_URL;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyBtnText.textContent = 'Đã chép!';
+            setTimeout(() => { copyBtnText.textContent = 'Sao chép'; }, 2000);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

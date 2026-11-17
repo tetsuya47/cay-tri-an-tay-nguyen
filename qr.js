@@ -1263,7 +1263,7 @@ function req(p){var n=p.replace(/^\.\//,'').replace(/\.js$/,'');
 var QRCode=req('index');
 var EC=req('QRErrorCorrectLevel');
 window.CTTQR={
-  draw:function(canvas,text,size){
+  draw:function(canvas,text,size,darkColor){
     var qr=null,t;
     for(t=2;t<=20;t++){
       try{qr=new QRCode(t,EC.M);qr.addData(text);qr.make();break;}catch(e){qr=null;}
@@ -1271,7 +1271,7 @@ window.CTTQR={
     if(!qr)throw new Error('QR too long');
     var n=qr.getModuleCount(),quiet=2,cells=n+quiet*2,px=Math.floor(size*(window.devicePixelRatio||1)/cells)||4;
     canvas.width=canvas.height=px*cells;
-    var c=canvas.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,canvas.width,canvas.height);c.fillStyle='#0A2723';
+    var c=canvas.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,canvas.width,canvas.height);c.fillStyle=darkColor||'#000000';
     for(var r=0;r<n;r++)for(var k=0;k<n;k++)if(qr.isDark(r,k))c.fillRect((k+quiet)*px,(r+quiet)*px,px,px);
     canvas.style.width=canvas.style.height=size+'px';
   }
